@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.ComponentModel.DataAnnotations;
 using WeatherApplication.Server.DTOs;
 
 namespace WeatherApplication.Server.Controllers
@@ -33,6 +34,14 @@ namespace WeatherApplication.Server.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("CurrentWeather")]
+        public CurrentWeatherDto GetCurrentWeather([FromQuery][Required] string cityName,
+                                                   [FromQuery] string stateCode,
+                                                   [FromQuery] int? countryCode)
+        {
+            return new CurrentWeatherDto();
         }
     }
 }
