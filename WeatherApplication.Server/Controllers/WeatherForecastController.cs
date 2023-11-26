@@ -47,55 +47,62 @@ namespace WeatherApplication.Server.Controllers
                                                    [FromQuery] int? stateCode,
                                                    [FromQuery] int? countryCode)
         {
-            // Check if we got required data at all
-            if(_openWeather == null || string.IsNullOrWhiteSpace(cityName))
+            try
             {
-                return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
+                // Check if we got required data at all
+                if (_openWeather == null || string.IsNullOrWhiteSpace(cityName))
+                {
+                    return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
+                }
+
+                // Use stringbuilder to build url for geocode
+                StringBuilder geocode = new StringBuilder();
+                string geocodeUrl = geocode.Append(_openWeather.Site + _openWeather.GeoResponseType + _openWeather.GeoVersion)
+                          .Append(_openWeather.GeolocationTemplate.Replace("cityname", cityName)
+                          .Replace(",stateCode", stateCode.HasValue ? stateCode.Value.ToString() : "")
+                          .Replace(",countrycode", countryCode.HasValue ? countryCode.Value.ToString() : "")
+                          .Replace("APIKey", _openWeather.Key)).ToString();
+
+                var geoResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
+
+                if (!geoResponse.IsSuccessStatusCode || geoResponse == null || geoResponse.Content == null)
+                {
+                    return BadRequest("Call to Open Weather for geocode failed");
+                }
+
+                string geo = await geoResponse.Content.ReadAsStringAsync(); // Transform response to string
+                var geoCode = JsonConvert.DeserializeObject<GeoCodeDto>(geo);
+
+                if (geoCode == null)
+                {
+                    return BadRequest("Deserialization of geocode failed");
+                }
+
+                // if previous actions are successful - create url for current weather
+                StringBuilder currentWeatherUrl = new StringBuilder();
+                currentWeatherUrl.Append(_openWeather.Site + _openWeather.WeatherResponseType + _openWeather.WeatherVersion)
+                                 .Append(_openWeather.CurrentWeatherTemplate.Replace("=lat", "=" + geoCode.Lat)
+                                 .Replace("=lon", "=" + geoCode.Lon).Replace("APIKey", _openWeather.Key)).ToString();
+
+                var currentWeatherResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
+                if (!currentWeatherResponse.IsSuccessStatusCode || currentWeatherResponse == null || currentWeatherResponse.Content == null)
+                {
+                    return BadRequest("Call to Open Weather for current weather failed");
+                }
+
+                string current = await geoResponse.Content.ReadAsStringAsync(); // Transform response to string
+                var currentWeather = JsonConvert.DeserializeObject<CurrentWeatherDto>(current);
+                if (currentWeather == null)
+                {
+                    return BadRequest("Deserialization of current weather failed");
+                }
+
+                return Ok(currentWeather);
             }
-
-            // Use stringbuilder to build url for geocode
-            StringBuilder geocode = new StringBuilder();
-            string geocodeUrl = geocode.Append(_openWeather.Site + _openWeather.GeoResponseType + _openWeather.GeoVersion)
-                      .Append(_openWeather.GeolocationTemplate.Replace("cityname", cityName)
-                      .Replace(",stateCode", stateCode.HasValue ? stateCode.Value.ToString() : "")
-                      .Replace(",countrycode", countryCode.HasValue ? countryCode.Value.ToString() : "")
-                      .Replace("APIKey", _openWeather.Key)).ToString();
-
-            var geoResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
-
-            if(!geoResponse.IsSuccessStatusCode || geoResponse == null || geoResponse.Content == null)
+            catch(Exception ex)
             {
-                return BadRequest("Call to Open Weather for geocode failed");
-            }
-
-            string geo = await geoResponse.Content.ReadAsStringAsync(); // Transform response to string
-            var geoCode = JsonConvert.DeserializeObject<GeoCodeDto>(geo);
-
-            if(geoCode == null)
-            {
-                return BadRequest("Deserialization of geocode failed");
-            }
-
-            // if previous actions are successful - create url for current weather
-            StringBuilder currentWeatherUrl = new StringBuilder();
-            currentWeatherUrl.Append(_openWeather.Site + _openWeather.WeatherResponseType + _openWeather.WeatherVersion)
-                             .Append(_openWeather.CurrentWeatherTemplate.Replace("=lat", "=" + geoCode.Lat)
-                             .Replace("=lon", "=" + geoCode.Lon).Replace("APIKey", _openWeather.Key)).ToString();
-
-            var currentWeatherResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
-            if (!currentWeatherResponse.IsSuccessStatusCode || currentWeatherResponse == null || currentWeatherResponse.Content == null)
-            {
-                return BadRequest("Call to Open Weather for current weather failed");
-            }
-
-            string current = await geoResponse.Content.ReadAsStringAsync(); // Transform response to string
-            var currentWeather = JsonConvert.DeserializeObject<CurrentWeatherDto>(current);
-            if (currentWeather == null)
-            {
-                return BadRequest("Deserialization of current weather failed");
-            }
-
-            return Ok(currentWeather);
+                return BadRequest(ex.Message);
+            }            
         }
     }
 }
