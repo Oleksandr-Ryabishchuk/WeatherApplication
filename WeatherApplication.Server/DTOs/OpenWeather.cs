@@ -9,6 +9,7 @@
         public string WeatherResponseType { get; set; } = string.Empty;
         public string CurrentWeatherTemplate { get; set; } = string.Empty;
         public string FourDaysForecastTemplate { get; set; } = string.Empty;
+        public string GeolocationTemplate { get; set; } = string.Empty;
         public string Key { get; set; } = string.Empty;
     }
 }
