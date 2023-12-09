@@ -4,6 +4,8 @@ using Newtonsoft.Json; // You need to install Newtonsoft.Json nugget package
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WeatherApplication.Server.DTOs;
+using WeatherApplication.Server.DTOs.CurrentWeather;
+using WeatherApplication.Server.DTOs.FourDaysWeather;
 
 namespace WeatherApplication.Server.Controllers
 {
@@ -102,6 +104,72 @@ namespace WeatherApplication.Server.Controllers
                 return Ok(currentWeather);
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("FourDaysWeather")]
+        public async Task<ActionResult<FourDaysWeatherDto>> GetFourDaysWeather([FromQuery][Required] string cityName, // Add one more decorator Task<>
+                                                                                                                    // To handle many asynchronous methods
+                                                   [FromQuery] int? stateCode,
+                                                   [FromQuery] int? countryCode)
+        {
+            try
+            {
+                // Check if we got required data at all
+                if (_openWeather == null || string.IsNullOrWhiteSpace(cityName))
+                {
+                    return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
+                }
+
+                // Use stringbuilder to build url for geocode
+                StringBuilder geocode = new StringBuilder();
+                string geocodeUrl = geocode.Append(_openWeather.Site + _openWeather.GeoResponseType + _openWeather.GeoVersion)
+                          .Append(_openWeather.GeolocationTemplate.Replace("cityname", cityName)
+                          .Replace(",statecode", stateCode.HasValue ? stateCode.Value.ToString() : "")
+                          .Replace(",countrycode", countryCode.HasValue ? countryCode.Value.ToString() : "")
+                          .Replace("APIKey", _openWeather.Key)).ToString();
+
+                var geoResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
+
+                if (!geoResponse.IsSuccessStatusCode || geoResponse == null || geoResponse.Content == null)
+                {
+                    return BadRequest("Call to Open Weather for geocode failed");
+                }
+
+                string geo = await geoResponse.Content.ReadAsStringAsync(); // Transform response to string
+                var geoCode = JsonConvert.DeserializeObject<List<GeoCodeDto>>(geo);
+
+                if (geoCode == null || geoCode == null || geoCode.Count == 0)
+                {
+                    return BadRequest("Deserialization of geocode failed");
+                }
+
+                var firstCity = geoCode.First();
+
+                // if previous actions are successful - create url for four days weather forecast
+                StringBuilder weatherUrl = new StringBuilder();
+                string url = weatherUrl.Append(_openWeather.Site + _openWeather.WeatherResponseType + _openWeather.WeatherVersion)
+                                 .Append(_openWeather.FourDaysForecastTemplate.Replace("=lat", "=" + firstCity.Lat)
+                                 .Replace("=lon", "=" + firstCity.Lon).Replace("APIKey", _openWeather.Key)).ToString();
+
+                var response = await _httpClient.GetAsync(url); // Make asynchronous call to Open Weather site
+                if (!response.IsSuccessStatusCode || response == null || response.Content == null)
+                {
+                    return BadRequest("Call to Open Weather for four days weather forecast failed");
+                }
+
+                string data = await response.Content.ReadAsStringAsync(); // Transform response to string
+                var weather = JsonConvert.DeserializeObject<FourDaysWeatherDto>(data);
+                if (weather == null)
+                {
+                    return BadRequest("Deserialization of four days weather forecast failed");
+                }
+
+                return Ok(weather);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

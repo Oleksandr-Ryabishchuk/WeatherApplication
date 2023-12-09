@@ -1,6 +1,9 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
-namespace WeatherApplication.Server.DTOs
+namespace WeatherApplication.Server.DTOs.CurrentWeather
 {
     public class CurrentWeatherDto
     {
@@ -9,8 +12,9 @@ namespace WeatherApplication.Server.DTOs
         public Clouds? Clouds { get; set; }
         public double Dt { get; set; } // For date
     }
+    
     public class Main
-    {
+    {        
         public double Temp { get; set; }
         public double Pressure { get; set; }
         public double Humidity { get; set; }
