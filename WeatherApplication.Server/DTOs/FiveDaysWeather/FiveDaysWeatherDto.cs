@@ -2,9 +2,9 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace WeatherApplication.Server.DTOs.FourDaysWeather
+namespace WeatherApplication.Server.DTOs.FiveDaysWeather
 {
-    public class FourDaysWeatherDto
+    public class FiveDaysWeatherDto
     {
         public string? Cod { get; set; }
         public int Message { get; set; } = 0;
@@ -45,6 +45,7 @@ namespace WeatherApplication.Server.DTOs.FourDaysWeather
         public int Visibility { get; set; } = 0;
         public double Pop { get; set; } = 0;
         public Rain? Rain { get; set; }
+        public Snow? Snow { get; set; }
         public Sys? Sys { get; set; }
         [JsonProperty("dt_txt")]
         public string DateText { get; set; } = string.Empty;
@@ -71,9 +72,15 @@ namespace WeatherApplication.Server.DTOs.FourDaysWeather
 
     public class Rain
     {
-        [JsonProperty("1h")]
-        public double OneHour { get; set; } = 0;
-    }    
+        [JsonProperty("3h")]
+        public double ThreeHours { get; set; } = 0;
+    }
+
+    public class Snow
+    {
+        [JsonProperty("3h")]
+        public double ThreeHours { get; set; } = 0;
+    }
 
     public class Sys
     {

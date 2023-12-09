@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.DTOs.CurrentWeather;
-using WeatherApplication.Server.DTOs.FourDaysWeather;
+using WeatherApplication.Server.DTOs.FiveDaysWeather;
 
 namespace WeatherApplication.Server.Controllers
 {
@@ -24,9 +24,9 @@ namespace WeatherApplication.Server.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
             IOptions<OpenWeather> openWeather,
-            HttpClient httpClient)
+            IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient; // Use DI to get HTTPClient correctly
+            _httpClient = httpClientFactory.CreateClient("OpenWeatherClient"); // Use DI to get HTTPClient correctly
             _openWeather = openWeather.Value;
             _logger = logger;
         }
@@ -109,8 +109,8 @@ namespace WeatherApplication.Server.Controllers
             }
         }
 
-        [HttpGet("FourDaysWeather")]
-        public async Task<ActionResult<FourDaysWeatherDto>> GetFourDaysWeather([FromQuery][Required] string cityName, // Add one more decorator Task<>
+        [HttpGet("FiveDaysWeather")]
+        public async Task<ActionResult<FiveDaysWeatherDto>> GetFiveDaysWeather([FromQuery][Required] string cityName, // Add one more decorator Task<>
                                                                                                                     // To handle many asynchronous methods
                                                    [FromQuery] int? stateCode,
                                                    [FromQuery] int? countryCode)
@@ -148,23 +148,23 @@ namespace WeatherApplication.Server.Controllers
 
                 var firstCity = geoCode.First();
 
-                // if previous actions are successful - create url for four days weather forecast
+                // if previous actions are successful - create url for five days weather forecast
                 StringBuilder weatherUrl = new StringBuilder();
                 string url = weatherUrl.Append(_openWeather.Site + _openWeather.WeatherResponseType + _openWeather.WeatherVersion)
-                                 .Append(_openWeather.FourDaysForecastTemplate.Replace("=lat", "=" + firstCity.Lat)
+                                 .Append(_openWeather.FiveDaysForecastTemplate.Replace("=lat", "=" + firstCity.Lat)
                                  .Replace("=lon", "=" + firstCity.Lon).Replace("APIKey", _openWeather.Key)).ToString();
 
                 var response = await _httpClient.GetAsync(url); // Make asynchronous call to Open Weather site
                 if (!response.IsSuccessStatusCode || response == null || response.Content == null)
                 {
-                    return BadRequest("Call to Open Weather for four days weather forecast failed");
+                    return BadRequest("Call to Open Weather for five days weather forecast failed");
                 }
 
                 string data = await response.Content.ReadAsStringAsync(); // Transform response to string
-                var weather = JsonConvert.DeserializeObject<FourDaysWeatherDto>(data);
+                var weather = JsonConvert.DeserializeObject<FiveDaysWeatherDto>(data);
                 if (weather == null)
                 {
-                    return BadRequest("Deserialization of four days weather forecast failed");
+                    return BadRequest("Deserialization of five days weather forecast failed");
                 }
 
                 return Ok(weather);
