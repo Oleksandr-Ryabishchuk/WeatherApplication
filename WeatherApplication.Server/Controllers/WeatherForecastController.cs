@@ -6,6 +6,7 @@ using System.Text;
 using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.DTOs.CurrentWeather;
 using WeatherApplication.Server.DTOs.FiveDaysWeather;
+using WeatherApplication.Server.Interfaces;
 
 namespace WeatherApplication.Server.Controllers
 {
@@ -14,20 +15,22 @@ namespace WeatherApplication.Server.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly OpenWeather _openWeather;
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient;       
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IUrlBuilderInterface _urlBuilder;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
             IOptions<OpenWeather> openWeather,
-            IHttpClientFactory httpClientFactory)
+            IHttpClientFactory httpClientFactory,
+            IUrlBuilderInterface urlBuilder)
         {
             _httpClient = httpClientFactory.CreateClient("OpenWeatherClient"); // Use DI to get HTTPClient correctly
             _openWeather = openWeather.Value;
+            _urlBuilder = urlBuilder;
             _logger = logger;
         }
 
@@ -57,13 +60,7 @@ namespace WeatherApplication.Server.Controllers
                     return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
                 }
 
-                // Use stringbuilder to build url for geocode
-                StringBuilder geocode = new StringBuilder();
-                string geocodeUrl = geocode.Append(_openWeather.Site + _openWeather.GeoResponseType + _openWeather.GeoVersion)
-                          .Append(_openWeather.GeolocationTemplate.Replace("cityname", cityName)
-                          .Replace(",statecode", stateCode.HasValue ? stateCode.Value.ToString() : "")
-                          .Replace(",countrycode", countryCode.HasValue ? countryCode.Value.ToString() : "")
-                          .Replace("APIKey", _openWeather.Key)).ToString();
+                string geocodeUrl = _urlBuilder.GetGeocodeUrl(_openWeather, cityName, stateCode, countryCode);
 
                 var geoResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
 
@@ -165,7 +162,7 @@ namespace WeatherApplication.Server.Controllers
                 if (weather == null)
                 {
                     return BadRequest("Deserialization of five days weather forecast failed");
-                }
+                }   
 
                 return Ok(weather);
             }
