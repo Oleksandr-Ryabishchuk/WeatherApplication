@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using WeatherApplication.Server.Data;
 using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.Interfaces;
 using WeatherApplication.Server.Services;
@@ -17,6 +19,14 @@ builder.Services.AddHttpClient("OpenWeatherClient", client =>
 });
 
 builder.Services.AddTransient<IUrlBuilderInterface, UrlBuilderService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Database");
+    var serverVersion = ServerVersion.AutoDetect(connectionString);
+    options.UseMySql(connectionString, serverVersion);    
+});
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
