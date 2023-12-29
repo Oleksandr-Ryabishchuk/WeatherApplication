@@ -12,7 +12,9 @@ namespace WeatherApplication.Server.Models
         public double Lon { get; set; } = 0;
         public string Country { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
+        public Guid CurrentWeatherId { get; set; }
         public CurrentWeather? CurrentWeather { get; set; }
+        public Guid FiveDaysWeatherId { get; set; }
         public FiveDaysWeather? FiveDaysWeather { get; set; }
     }
 }
