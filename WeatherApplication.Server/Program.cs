@@ -18,14 +18,15 @@ builder.Services.AddHttpClient("OpenWeatherClient", client =>
     // Additional configuration if needed...
 });
 
-builder.Services.AddTransient<IUrlBuilderInterface, UrlBuilderService>();
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Database");
     var serverVersion = ServerVersion.AutoDetect(connectionString);
     options.UseMySql(connectionString, serverVersion);    
 });
+
+builder.Services.AddTransient<IUrlBuilderInterface, UrlBuilderService>();
+builder.Services.AddTransient<ITenantFinderInterface, TenantFinderService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -53,10 +53,10 @@ namespace WeatherApplication.Server.Controllers
         }
 
         [HttpGet("CurrentWeather")]
-        public async Task<ActionResult<CurrentWeatherDto>> GetCurrentWeather([FromQuery][Required] string cityName, // Add one more decorator Task<>
-                                                                                                                    // To handle many asynchronous methods
-                                                   [FromQuery] int? stateCode,
-                                                   [FromQuery] int? countryCode)
+        public async Task<ActionResult<CurrentWeatherDto>> GetCurrentWeather([FromQuery][Required] string cityName,
+                                                                             [FromQuery][Required] string userEmail, 
+                                                                             [FromQuery] int? stateCode,
+                                                                             [FromQuery] int? countryCode)
         {
             try
             {
@@ -113,10 +113,10 @@ namespace WeatherApplication.Server.Controllers
         }
 
         [HttpGet("FiveDaysWeather")]
-        public async Task<ActionResult<FiveDaysWeatherDto>> GetFiveDaysWeather([FromQuery][Required] string cityName, // Add one more decorator Task<>
-                                                                                                                    // To handle many asynchronous methods
-                                                   [FromQuery] int? stateCode,
-                                                   [FromQuery] int? countryCode)
+        public async Task<ActionResult<FiveDaysWeatherDto>> GetFiveDaysWeather([FromQuery][Required] string cityName,
+                                                                               [FromQuery][Required] string userEmail,
+                                                                               [FromQuery] int? stateCode,
+                                                                               [FromQuery] int? countryCode)
         {
             try
             {
