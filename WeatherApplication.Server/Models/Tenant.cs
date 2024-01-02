@@ -10,5 +10,8 @@ namespace WeatherApplication.Server.Models
         public string Name { get; set; } = string.Empty;
         // One Tenant has many Users
         public ICollection<User>? Users { get; set; }
+        public ICollection<Record>? Records { get; set; }
+        public ICollection<CurrentWeather>? CurrentWeatherCalls { get; set; }
+        public ICollection<FiveDaysWeather>? FiveDaysWeatherCalls { get; set; }
     }
 }

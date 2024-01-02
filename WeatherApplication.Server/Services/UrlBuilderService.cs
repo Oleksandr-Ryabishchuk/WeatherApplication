@@ -20,7 +20,11 @@ namespace WeatherApplication.Server.Services
 
         public string GetWeatherUrl(string template, GeoCodeDto geoCode, OpenWeather openWeather)
         {
-            return "";
+            StringBuilder weatherUrl = new StringBuilder();
+            string currentUrl = weatherUrl.Append(openWeather.Site + openWeather.WeatherResponseType + openWeather.WeatherVersion)
+                             .Append(template.Replace("=lat", "=" + geoCode.Lat)
+                             .Replace("=lon", "=" + geoCode.Lon).Replace("APIKey", openWeather.Key)).ToString();
+            return currentUrl;
         }
     }
 }

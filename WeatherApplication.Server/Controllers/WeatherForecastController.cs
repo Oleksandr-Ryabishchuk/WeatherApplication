@@ -126,13 +126,7 @@ namespace WeatherApplication.Server.Controllers
                     return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
                 }
 
-                // Use stringbuilder to build url for geocode
-                StringBuilder geocode = new StringBuilder();
-                string geocodeUrl = geocode.Append(_openWeather.Site + _openWeather.GeoResponseType + _openWeather.GeoVersion)
-                          .Append(_openWeather.GeolocationTemplate.Replace("cityname", cityName)
-                          .Replace(",statecode", stateCode.HasValue ? stateCode.Value.ToString() : "")
-                          .Replace(",countrycode", countryCode.HasValue ? countryCode.Value.ToString() : "")
-                          .Replace("APIKey", _openWeather.Key)).ToString();
+                string geocodeUrl = _urlBuilder.GetGeocodeUrl(_openWeather, cityName, stateCode, countryCode);
 
                 var geoResponse = await _httpClient.GetAsync(geocodeUrl); // Make asynchronous call to Open Weather site
 
@@ -152,10 +146,7 @@ namespace WeatherApplication.Server.Controllers
                 var firstCity = geoCode.First();
 
                 // if previous actions are successful - create url for five days weather forecast
-                StringBuilder weatherUrl = new StringBuilder();
-                string url = weatherUrl.Append(_openWeather.Site + _openWeather.WeatherResponseType + _openWeather.WeatherVersion)
-                                 .Append(_openWeather.FiveDaysForecastTemplate.Replace("=lat", "=" + firstCity.Lat)
-                                 .Replace("=lon", "=" + firstCity.Lon).Replace("APIKey", _openWeather.Key)).ToString();
+                string url = _urlBuilder.GetWeatherUrl(_openWeather.FiveDaysForecastTemplate, firstCity, _openWeather);
 
                 var response = await _httpClient.GetAsync(url); // Make asynchronous call to Open Weather site
                 if (!response.IsSuccessStatusCode || response == null || response.Content == null)

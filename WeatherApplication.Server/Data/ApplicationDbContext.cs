@@ -21,6 +21,21 @@ namespace WeatherApplication.Server.Data
                 .HasMany(x => x.Users)
                 .WithOne(x => x.Tenant)
                 .HasForeignKey(x => x.TenantId);
+
+            builder.Entity<Tenant>()
+                .HasMany(x => x.Records)
+                .WithOne(x => x.Tenant)
+                .HasForeignKey(x => x.TenantId);
+
+            builder.Entity<Tenant>()
+                .HasMany(x => x.CurrentWeatherCalls)
+                .WithOne(x => x.Tenant)
+                .HasForeignKey(x => x.TenantId);
+
+            builder.Entity<Tenant>()
+                .HasMany(x => x.FiveDaysWeatherCalls)
+                .WithOne(x => x.Tenant)
+                .HasForeignKey(x => x.TenantId);
         }
     }
 }
