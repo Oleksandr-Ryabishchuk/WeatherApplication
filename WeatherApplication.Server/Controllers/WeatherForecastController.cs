@@ -26,18 +26,21 @@ namespace WeatherApplication.Server.Controllers
         };
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IUrlBuilderInterface _urlBuilder;
+        private readonly ITenantFinderInterface _tenantFinder;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
             IOptions<OpenWeather> openWeather,
             IHttpClientFactory httpClientFactory,
             IUrlBuilderInterface urlBuilder, 
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            ITenantFinderInterface tenantFinder)
         {
             _httpClient = httpClientFactory.CreateClient("OpenWeatherClient"); // Use DI to get HTTPClient correctly
             _openWeather = openWeather.Value;
             _urlBuilder = urlBuilder;
             _logger = logger;
             _context = context;
+            _tenantFinder = tenantFinder;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -61,9 +64,16 @@ namespace WeatherApplication.Server.Controllers
             try
             {
                 // Check if we got required data at all
-                if (_openWeather == null || string.IsNullOrWhiteSpace(cityName))
+                if (_openWeather == null || string.IsNullOrWhiteSpace(cityName) || string.IsNullOrWhiteSpace(userEmail))
                 {
                     return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
+                }
+
+                Guid tenantId = await _tenantFinder.GetTenantId(userEmail, _context);
+
+                if(tenantId == default)
+                {
+                    return Unauthorized("You are not authorized to perform any action");
                 }
 
                 string geocodeUrl = _urlBuilder.GetGeocodeUrl(_openWeather, cityName, stateCode, countryCode);
@@ -104,6 +114,36 @@ namespace WeatherApplication.Server.Controllers
                     return BadRequest("Deserialization of current weather failed");
                 }
 
+                var call = new CurrentWeather
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedAt = DateTime.Now,
+                    TenantId = tenantId,
+                    Temp = currentWeather.Main!.Temp,
+                    Humidity = currentWeather.Main!.Humidity,
+                    Pressure = currentWeather.Main!.Pressure,
+                    CloudsAll = currentWeather.Clouds!.All,
+                    WindSpeed = currentWeather.Wind!.Speed
+                };
+                await _context.AddAsync(call);
+                await _context.SaveChangesAsync();
+
+                var record = new Record
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedAt = DateTime.Now,
+                    TenantId = tenantId,
+                    City = firstCity.Name,
+                    State = firstCity.State,
+                    Country = firstCity.Country,
+                    Lon = firstCity.Lon,
+                    Lat = firstCity.Lat,
+                    CurrentWeatherId = call.Id
+                };
+
+                await _context.AddAsync(record);
+                await _context.SaveChangesAsync();
+
                 return Ok(currentWeather);
             }
             catch(Exception ex)
@@ -121,9 +161,16 @@ namespace WeatherApplication.Server.Controllers
             try
             {
                 // Check if we got required data at all
-                if (_openWeather == null || string.IsNullOrWhiteSpace(cityName))
+                if (_openWeather == null || string.IsNullOrWhiteSpace(cityName) || string.IsNullOrWhiteSpace(userEmail))
                 {
                     return BadRequest("Some configuration or request is empty"); // Return bad request with message that points to problem
+                }
+
+                Guid tenantId = await _tenantFinder.GetTenantId(userEmail, _context);
+
+                if (tenantId == default)
+                {
+                    return Unauthorized("You are not authorized to perform any action");
                 }
 
                 string geocodeUrl = _urlBuilder.GetGeocodeUrl(_openWeather, cityName, stateCode, countryCode);
@@ -159,7 +206,32 @@ namespace WeatherApplication.Server.Controllers
                 if (weather == null)
                 {
                     return BadRequest("Deserialization of five days weather forecast failed");
-                }   
+                }
+
+                var call = new FiveDaysWeather
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedAt = DateTime.Now,
+                    TenantId = tenantId
+                };
+                await _context.AddAsync(call);
+                await _context.SaveChangesAsync();
+
+                var record = new Record
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedAt = DateTime.Now,
+                    TenantId = tenantId,
+                    City = firstCity.Name,
+                    State = firstCity.State,
+                    Country = firstCity.Country,
+                    Lon = firstCity.Lon,
+                    Lat = firstCity.Lat,
+                    FiveDaysWeatherId = call.Id
+                };
+
+                await _context.AddAsync(record);
+                await _context.SaveChangesAsync();
 
                 return Ok(weather);
             }
@@ -167,6 +239,27 @@ namespace WeatherApplication.Server.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("GetAllRecordsForTenant")]
+        public async Task<ActionResult<IEnumerable<Record>>> GetAllRecordsForTenant([FromQuery][Required] string userEmail)
+        {
+            if (_openWeather == null)
+            {
+                return BadRequest("Some configuration or request is empty");
+            }
+
+            Guid tenantId = await _tenantFinder.GetTenantId(userEmail, _context);
+
+            if (tenantId == default)
+            {
+                return Unauthorized("You are not authorized to perform any action");
+            }
+            var records = await _context.Records.Include(x => x.CurrentWeather)
+                                          .Include(x => x.FiveDaysWeather)
+                                          .Where(x => x.TenantId == tenantId)
+                                          .ToListAsync();
+            return Ok(records);
         }
 
         [HttpPost("SeedDefaultTenantsAndUsers")]

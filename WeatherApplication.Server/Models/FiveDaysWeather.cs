@@ -1,4 +1,5 @@
-﻿using WeatherApplication.Server.Interfaces;
+﻿using Newtonsoft.Json;
+using WeatherApplication.Server.Interfaces;
 
 namespace WeatherApplication.Server.Models
 {
