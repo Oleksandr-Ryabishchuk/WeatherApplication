@@ -10,6 +10,7 @@ namespace WeatherApplication.Server.Data
         public DbSet<FiveDaysWeather> FiveDaysWeatherCalls { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Item> Items { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }

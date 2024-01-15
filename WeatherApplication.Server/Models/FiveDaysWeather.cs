@@ -12,7 +12,7 @@ namespace WeatherApplication.Server.Models
         public Guid? TenantId { get; set; }
         public Tenant? Tenant { get; set; }
         public ICollection<Item>? Items { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string CityName { get; set; } = string.Empty;
         public double Lat { get; set; }
         public double Lon { get; set; }
         public string Country { get; set; } = string.Empty;

@@ -10,7 +10,7 @@ namespace WeatherApplication.Server.Models
         public Guid? FiveDaysWeatherId { get; set; }
         public FiveDaysWeather? FiveDaysWeather { get; set; }
         public int Dt { get; set; }
-        public double Temp { get; set; } = 0;        
+        public double Temp { get; set; } = 0;
         public double FeelsLike { get; set; } = 0;
         public double TempMin { get; set; } = 0;
         public double TempMax { get; set; } = 0;
@@ -25,9 +25,9 @@ namespace WeatherApplication.Server.Models
         public int Visibility { get; set; } = 0;
         public double Pop { get; set; } = 0;
         public string? Rain { get; set; }
-        public string? Snow { get; set; }        
+        public string? Snow { get; set; }
         public string DateText { get; set; } = string.Empty;
-        public int CloudsAll { get; set; }
+        public int CloudsAll { get; set; } = 0;
         public double WindSpeed { get; set; } = 0;
         public int WindDeg { get; set; } = 0;
         public double WindGust { get; set; } = 0;
