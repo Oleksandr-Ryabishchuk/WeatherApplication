@@ -18,6 +18,8 @@ builder.Services.AddHttpClient("OpenWeatherClient", client =>
     // Additional configuration if needed...
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Database");
