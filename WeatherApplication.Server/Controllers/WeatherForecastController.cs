@@ -127,18 +127,12 @@ namespace WeatherApplication.Server.Controllers
                 await _context.AddAsync(call);
                 await _context.SaveChangesAsync();
 
-                var record = new Record
+                var record = _mapper.Map<Record>(firstCity, opts =>
                 {
-                    Id = Guid.NewGuid(),
-                    CreatedAt = DateTime.Now,
-                    TenantId = tenantId,
-                    City = firstCity.Name,
-                    State = firstCity.State,
-                    Country = firstCity.Country,
-                    Lon = firstCity.Lon,
-                    Lat = firstCity.Lat,
-                    CurrentWeatherId = call.Id
-                };
+                    opts.Items[nameof(Record.TenantId)] = tenantId;
+                    opts.Items[nameof(Record.CurrentWeatherId)] = call.Id;
+                    opts.Items[nameof(Record.FiveDaysWeatherId)] = null;
+                });
 
                 await _context.AddAsync(record);
                 await _context.SaveChangesAsync();
@@ -146,7 +140,7 @@ namespace WeatherApplication.Server.Controllers
                 return Ok(currentWeather);
             }
             catch(Exception ex)
-            {
+            {   
                 return BadRequest(ex.Message);
             }
         }
