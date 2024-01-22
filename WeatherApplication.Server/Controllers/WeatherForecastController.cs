@@ -1,9 +1,11 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json; // You need to install Newtonsoft.Json nugget package 
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Xml.Linq;
 using WeatherApplication.Server.Data;
 using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.DTOs.CurrentWeather;
@@ -27,13 +29,15 @@ namespace WeatherApplication.Server.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IUrlBuilderInterface _urlBuilder;
         private readonly ITenantFinderInterface _tenantFinder;
+        private readonly IMapper _mapper;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
             IOptions<OpenWeather> openWeather,
             IHttpClientFactory httpClientFactory,
             IUrlBuilderInterface urlBuilder, 
             ApplicationDbContext context,
-            ITenantFinderInterface tenantFinder)
+            ITenantFinderInterface tenantFinder,
+            IMapper mapper)
         {
             _httpClient = httpClientFactory.CreateClient("OpenWeatherClient"); // Use DI to get HTTPClient correctly
             _openWeather = openWeather.Value;
@@ -41,6 +45,7 @@ namespace WeatherApplication.Server.Controllers
             _logger = logger;
             _context = context;
             _tenantFinder = tenantFinder;
+            _mapper = mapper;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -114,17 +119,11 @@ namespace WeatherApplication.Server.Controllers
                     return BadRequest("Deserialization of current weather failed");
                 }
 
-                var call = new CurrentWeather
+                var call = _mapper.Map<CurrentWeather>(currentWeather, opts =>
                 {
-                    Id = Guid.NewGuid(),
-                    CreatedAt = DateTime.Now,
-                    TenantId = tenantId,
-                    Temp = currentWeather.Main!.Temp,
-                    Humidity = currentWeather.Main!.Humidity,
-                    Pressure = currentWeather.Main!.Pressure,
-                    CloudsAll = currentWeather.Clouds!.All,
-                    WindSpeed = currentWeather.Wind!.Speed
-                };
+                    opts.Items[nameof(CurrentWeather.TenantId)] = tenantId;
+                });
+
                 await _context.AddAsync(call);
                 await _context.SaveChangesAsync();
 
