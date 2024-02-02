@@ -41,7 +41,7 @@ namespace WeatherApplication.Server.Data
             builder.Entity<FiveDaysWeather>()
                 .HasMany(x => x.Items)
                 .WithOne(x => x.FiveDaysWeather)
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey(x => x.FiveDaysWeatherId);
         }
     }
 }

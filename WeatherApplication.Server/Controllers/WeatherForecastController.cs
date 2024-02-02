@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json; // You need to install Newtonsoft.Json nugget package 
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Xml.Linq;
@@ -200,28 +201,36 @@ namespace WeatherApplication.Server.Controllers
                 {
                     return BadRequest("Deserialization of five days weather forecast failed");
                 }
-
-                var call = new FiveDaysWeather
+                                
+                var call = _mapper.Map<FiveDaysWeather>(weather, opts =>
                 {
-                    Id = Guid.NewGuid(),
-                    CreatedAt = DateTime.Now,
-                    TenantId = tenantId
-                };
-                await _context.AddAsync(call);
-                await _context.SaveChangesAsync();
-
-                var record = new Record
+                    opts.Items[nameof(FiveDaysWeather.TenantId)] = tenantId;
+                    opts.Items[nameof(FiveDaysWeather.Items)] = null;
+                });
+                
+                var items = weather?.List?.Select(x =>
                 {
-                    Id = Guid.NewGuid(),
-                    CreatedAt = DateTime.Now,
-                    TenantId = tenantId,
-                    City = firstCity.Name,
-                    State = firstCity.State,
-                    Country = firstCity.Country,
-                    Lon = firstCity.Lon,
-                    Lat = firstCity.Lat,
-                    FiveDaysWeatherId = call.Id
-                };
+                    var item = _mapper.Map<Item>(x, opts =>
+                    {
+                        opts.Items[nameof(Item.FiveDaysWeatherId)] = call.Id;
+                        opts.Items[nameof(Item.FiveDaysWeather)] = call;
+                    });
+
+                    return item;
+                });
+                
+                if (items != null)
+                {
+                    await _context.AddRangeAsync(items);
+                    await _context.SaveChangesAsync();
+                }
+
+                var record = _mapper.Map<Record>(firstCity, opts =>
+                {
+                    opts.Items[nameof(Record.TenantId)] = tenantId;
+                    opts.Items[nameof(Record.CurrentWeatherId)] = null;
+                    opts.Items[nameof(Record.FiveDaysWeatherId)] = call.Id;
+                });
 
                 await _context.AddAsync(record);
                 await _context.SaveChangesAsync();
@@ -249,7 +258,7 @@ namespace WeatherApplication.Server.Controllers
                 return Unauthorized("You are not authorized to perform any action");
             }
             var records = await _context.Records.Include(x => x.CurrentWeather)
-                                          .Include(x => x.FiveDaysWeather)
+                                          .Include(x => x.FiveDaysWeather).ThenInclude(x => x!.Items)
                                           .Where(x => x.TenantId == tenantId)
                                           .ToListAsync();
             return Ok(records);

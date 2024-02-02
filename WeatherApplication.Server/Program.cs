@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json.Serialization;
 using WeatherApplication.Server.Data;
 using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.Interfaces;
@@ -9,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddSessionStateTempDataProvider()
+            .AddJsonOptions(o => o.JsonSerializerOptions
+                .ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddHttpClient("OpenWeatherClient", client =>
 {
@@ -24,7 +27,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Database");
     var serverVersion = ServerVersion.AutoDetect(connectionString);
-    options.UseMySql(connectionString, serverVersion);    
+    options.UseMySql(connectionString, serverVersion);
+    if (builder.Environment.IsDevelopment())
+    {
+        options.LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
+    }
 });
 
 builder.Services.AddTransient<IUrlBuilderInterface, UrlBuilderService>();
@@ -33,7 +42,7 @@ builder.Services.AddTransient<ITenantFinderInterface, TenantFinderService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
+    
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.FullName); // Use the type's full name as the schema ID
