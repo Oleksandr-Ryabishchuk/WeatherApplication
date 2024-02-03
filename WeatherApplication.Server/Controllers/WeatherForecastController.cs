@@ -242,7 +242,8 @@ namespace WeatherApplication.Server.Controllers
         }
 
         [HttpGet("GetAllRecordsForTenant")]
-        public async Task<ActionResult<IEnumerable<Record>>> GetAllRecordsForTenant([FromQuery][Required] string userEmail)
+        public async Task<ActionResult<IEnumerable<Record>>> GetAllRecordsForTenant([FromQuery][Required] string userEmail,
+                                                                                    [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
         {
             if (_openWeather == null)
             {
@@ -255,10 +256,21 @@ namespace WeatherApplication.Server.Controllers
             {
                 return Unauthorized("You are not authorized to perform any action");
             }
-            var records = await _context.Records.Include(x => x.CurrentWeather)
+            var recordsQuery = _context.Records.Include(x => x.CurrentWeather)
                                           .Include(x => x.FiveDaysWeather).ThenInclude(x => x!.Items)
-                                          .Where(x => x.TenantId == tenantId)
-                                          .ToListAsync();
+                                          .Where(x => x.TenantId == tenantId);
+
+            if(fromDate != null)
+            {
+                recordsQuery = recordsQuery.Where(x => x.CreatedAt >= fromDate);
+            }
+
+            if(toDate != null)
+            {
+                recordsQuery = recordsQuery.Where(x => x.CreatedAt <= toDate);
+            }
+                                          
+            var records = await recordsQuery.ToListAsync();
             return Ok(records);
         }
 
