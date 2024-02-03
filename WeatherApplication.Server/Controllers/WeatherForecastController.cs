@@ -209,14 +209,12 @@ namespace WeatherApplication.Server.Controllers
                 });
                 
                 var items = weather?.List?.Select(x =>
-                {
-                    var item = _mapper.Map<Item>(x, opts =>
+                {   
+                    return _mapper.Map<Item>(x, opts =>
                     {
                         opts.Items[nameof(Item.FiveDaysWeatherId)] = call.Id;
                         opts.Items[nameof(Item.FiveDaysWeather)] = call;
                     });
-
-                    return item;
                 });
                 
                 if (items != null)
