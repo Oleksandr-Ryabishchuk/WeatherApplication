@@ -209,7 +209,7 @@ namespace WeatherApplication.Server.Controllers
                 });
                 
                 var items = weather?.List?.Select(x =>
-                {   
+                {
                     return _mapper.Map<Item>(x, opts =>
                     {
                         opts.Items[nameof(Item.FiveDaysWeatherId)] = call.Id;
