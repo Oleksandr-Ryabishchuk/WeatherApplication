@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.DTOs.CurrentWeather;
 using WeatherApplication.Server.Models;
 
@@ -19,6 +20,8 @@ namespace WeatherApplication.Server.AutoMapper
                .ForMember(x => x.CloudsAll, y => y.MapFrom(a => a.Clouds != null ? a.Clouds.All : 0))
                .ForMember(x => x.TenantId, y => y.MapFrom((src, dest, destMember, context) => context.Items[nameof(CurrentWeather.TenantId)]))
                .ReverseMap();
+
+            CreateMap<CurrentWeather, CurrentWeatherViewDto>();
         }
     }
 }

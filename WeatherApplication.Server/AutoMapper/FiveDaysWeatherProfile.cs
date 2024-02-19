@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.DTOs.FiveDaysWeather;
 using WeatherApplication.Server.Models;
 
@@ -24,6 +25,8 @@ namespace WeatherApplication.Server.AutoMapper
                 .ForMember(x => x.Sunrise, y => y.MapFrom(a => a.City != null ? a.City.Sunrise : 0))
                 .ForMember(x => x.Sunset, y => y.MapFrom(a => a.City != null ? a.City.Sunset : 0));
 
+            CreateMap<FiveDaysWeather, FiveDaysWeatherViewDto>();
+                
         }
     }
 }

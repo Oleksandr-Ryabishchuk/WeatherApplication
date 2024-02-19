@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WeatherApplication.Server.DTOs;
 using WeatherApplication.Server.DTOs.FiveDaysWeather;
 using WeatherApplication.Server.Models;
 
@@ -34,6 +35,8 @@ namespace WeatherApplication.Server.AutoMapper
                 .ForMember(x => x.WindSpeed, y => y.MapFrom(a => a.Wind != null ? a.Wind.Speed : 0))
                 .ForMember(x => x.WindGust, y => y.MapFrom(a => a.Wind != null ? a.Wind.Gust : 0))
                 .ForMember(x => x.WindDeg, y => y.MapFrom(a => a.Wind != null ? a.Wind.Deg : 0));
+
+            CreateMap<Item, ItemDto>();
         }
     }
 }

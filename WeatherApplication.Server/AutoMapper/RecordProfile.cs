@@ -20,6 +20,8 @@ namespace WeatherApplication.Server.AutoMapper
                 .ForMember(x => x.Country, y => y.MapFrom(a => a.Country))
                 .ForMember(x => x.Lat, y => y.MapFrom(a => a.Lat))
                 .ForMember(x => x.Lon, y => y.MapFrom(a => a.Lon));
+
+            CreateMap<Record, RecordDto>();
         }
     }
 }
