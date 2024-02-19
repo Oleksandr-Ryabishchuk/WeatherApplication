@@ -271,7 +271,8 @@ namespace WeatherApplication.Server.Controllers
             }
                                           
             var records = await recordsQuery.ToListAsync();
-            return Ok(records);
+            var recordDtos = _mapper.Map<IEnumerable<RecordDto>>(records);
+            return Ok(recordDtos);
         }
 
         [HttpPost("SeedDefaultTenantsAndUsers")]
