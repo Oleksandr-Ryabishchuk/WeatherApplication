@@ -62,7 +62,7 @@ namespace WeatherApplication.Server.Controllers
         }
 
         [HttpGet("CurrentWeather")]
-        public async Task<ActionResult<CurrentWeatherDto>> GetCurrentWeather([FromQuery][Required] string cityName,
+        public async Task<ActionResult<CurrentWeatherViewDto>> GetCurrentWeather([FromQuery][Required] string cityName,
                                                                              [FromQuery][Required] string userEmail, 
                                                                              [FromQuery] int? stateCode,
                                                                              [FromQuery] int? countryCode)
@@ -138,7 +138,8 @@ namespace WeatherApplication.Server.Controllers
                 await _context.AddAsync(record);
                 await _context.SaveChangesAsync();
 
-                return Ok(currentWeather);
+                var entity = await _context.CurrentWeatherCalls.FirstOrDefaultAsync(x => x.Id == call.Id);
+                return Ok(_mapper.Map<CurrentWeatherViewDto>(entity));
             }
             catch(Exception ex)
             {   
@@ -147,7 +148,7 @@ namespace WeatherApplication.Server.Controllers
         }
 
         [HttpGet("FiveDaysWeather")]
-        public async Task<ActionResult<FiveDaysWeatherDto>> GetFiveDaysWeather([FromQuery][Required] string cityName,
+        public async Task<ActionResult<FiveDaysWeatherViewDto>> GetFiveDaysWeather([FromQuery][Required] string cityName,
                                                                                [FromQuery][Required] string userEmail,
                                                                                [FromQuery] int? stateCode,
                                                                                [FromQuery] int? countryCode)
@@ -233,7 +234,8 @@ namespace WeatherApplication.Server.Controllers
                 await _context.AddAsync(record);
                 await _context.SaveChangesAsync();
 
-                return Ok(weather);
+                var entity = await _context.FiveDaysWeatherCalls.FirstOrDefaultAsync(x => x.Id == call.Id);
+                return Ok(_mapper.Map<FiveDaysWeatherViewDto>(entity));
             }
             catch (Exception ex)
             {
@@ -242,7 +244,7 @@ namespace WeatherApplication.Server.Controllers
         }
 
         [HttpGet("GetAllRecordsForTenant")]
-        public async Task<ActionResult<IEnumerable<Record>>> GetAllRecordsForTenant([FromQuery][Required] string userEmail,
+        public async Task<ActionResult<IEnumerable<RecordDto>>> GetAllRecordsForTenant([FromQuery][Required] string userEmail,
                                                                                     [FromQuery] DateTime? fromDate, [FromQuery] DateTime? toDate)
         {
             if (_openWeather == null)
