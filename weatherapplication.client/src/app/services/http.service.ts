@@ -1,9 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-// _  . .   _           
-//  \_____/            
-
-@Injectable({ providedIn: 'root' })
 
 export interface WeatherForecast {
   date: string;
@@ -11,6 +7,10 @@ export interface WeatherForecast {
   temperatureF: number;
   summary: string;
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 
 export class HttpService {
   constructor(private http: HttpClient) {}
