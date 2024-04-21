@@ -24,7 +24,7 @@ import { RandomWeatherComponent } from './core/pages/random-weather/random-weath
     AppRoutingModule,
     RouterModule.forRoot([{ path: '**', component: RandomWeatherComponent }]),
   ],
-  exports: [CurrentWeatherPageComponent, FivedaysWeatherPageComponent, StatisticsPageComponent],
+ // exports: [CurrentWeatherPageComponent, FivedaysWeatherPageComponent, StatisticsPageComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
