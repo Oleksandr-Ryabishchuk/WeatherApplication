@@ -9,6 +9,32 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
+  <nav class="navbar sticky-top bg-primary navbar-expand-lg navbar-light border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="randomweather" id='logo' alt=""><img src="assets/logo.png" width="70%" height="70%"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon">
+          <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-list svg-nav" fill="#002347" xmlns="http://www.w3.org/2000/svg">
+
+          </svg>
+        </span>
+      </button>
+
+      <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+        <ul class="nav navbar-nav menu_nav ml-auto">
+          <li class="nav-item p-2">
+            <a class="nav-link d-flex justify-content-center" href="currentweather"><button class="btn btn-outline-light">Current Weather</button></a>
+          </li>
+          <li class="nav-item p-2">
+            <a class="nav-link d-flex justify-content-center" href="5dayforecast"><button class="btn btn-outline-light">5-Day Forecast</button></a>
+          </li>
+          <li class="nav-item p-2">
+            <a class="nav-link d-flex justify-content-center" href="statistics"><button class="btn btn-outline-light">Statistics</button></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <app-root></app-root>
 
 </body>
