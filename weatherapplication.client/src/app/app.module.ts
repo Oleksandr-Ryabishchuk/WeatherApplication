@@ -3,14 +3,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { RandomWeatherComponent } from './core/pages/random-weather/random-weather.component';
+import { RandomWeatherComponent } from './core/pages/core/pages/random-weather/random-weather.component';
 import { AppRoutingModule } from './routing.module';
 import { RouterModule } from '@angular/router';
+import { CurrentWeatherPageComponent } from './core/pages/current-weather-page/current-weather-page.component';
+import { FivedaysWeatherPageComponent } from './core/pages/fivedays-weather-page/fivedays-weather-page.component';
+import { StatisticsPageComponent } from './core/pages/statistics-page/statistics-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RandomWeatherComponent
+    RandomWeatherComponent,
+    CurrentWeatherPageComponent,
+    FivedaysWeatherPageComponent,
+    StatisticsPageComponent
   ],
   imports: [
     BrowserModule, 
@@ -18,6 +24,7 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     RouterModule.forRoot([{ path: '**', component: RandomWeatherComponent }]),
   ],
+  exports: [CurrentWeatherPageComponent, FivedaysWeatherPageComponent, StatisticsPageComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
