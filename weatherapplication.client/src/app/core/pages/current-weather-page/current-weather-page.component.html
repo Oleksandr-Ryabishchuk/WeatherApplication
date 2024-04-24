@@ -1,1 +1,22 @@
-<p>current-weather-page works!</p>
+<table class="table table-borderless table-striped" *ngIf="forecasts">
+  <thead>
+    <tr>
+      <th>Temp. (C)</th>
+      <th>Temp. (F)</th>
+      <th>Presssure</th>
+      <th>Humidity</th>
+      <th>Wind speed</th>
+      <th>Clouds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td>{{ forecast.temperatureC }}</td>
+      <td>{{ forecast.temperatureF }}</td>
+      <td>{{ forecast.pressure }}</td>
+      <td>{{ forecast.humidity }}</td>
+      <td>{{ forecast.windspeed }}</td>
+      <td>{{ forecast.cloudsall }}</td>
+    </tr>
+  </tbody>
+</table>
