@@ -13,7 +13,7 @@ export class HttpService {
   getForecasts() {
     return this.http.get<WeatherForecast[]>('/weatherforecast'); 
   }
-  getCurrentWeather() {
-    return this.http.get<any>('/CurrentWeather'); 
+  getCurrentWeather(cityName: string, userEmail: string, stateCode: number | null, countryCode: number | null) {
+    return this.http.get<any>(`/CurrentWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${stateCode}&countryCode=${countryCode}`); 
   }
 }
