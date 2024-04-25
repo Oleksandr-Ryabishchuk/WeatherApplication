@@ -14,6 +14,6 @@ export class HttpService {
     return this.http.get<WeatherForecast[]>('/weatherforecast'); 
   }
   getCurrentWeather(cityName: string, userEmail: string, stateCode: number | null, countryCode: number | null) {
-    return this.http.get<any>(`/CurrentWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${stateCode}&countryCode=${countryCode}`); 
+    return this.http.get<any>(`/weatherforecast/CurrentWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${stateCode || ''}&countryCode=${countryCode || ''}`); 
   }
 }
