@@ -1,8 +1,7 @@
-<table class="table table-borderless table-striped" *ngIf="forecasts">
+<table class="table table-borderless table-striped" *ngIf="currentWeather">
   <thead>
     <tr>
       <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
       <th>Presssure</th>
       <th>Humidity</th>
       <th>Wind speed</th>
@@ -10,13 +9,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.pressure }}</td>
-      <td>{{ forecast.humidity }}</td>
-      <td>{{ forecast.windspeed }}</td>
-      <td>{{ forecast.cloudsall }}</td>
+    <tr>
+      <td>{{ currentWeather.temp }}</td>
+      <td>{{ currentWeather.pressure }}</td>
+      <td>{{ currentWeather.humidity }}</td>
+      <td>{{ currentWeather.windSpeed }}</td>
+      <td>{{ currentWeather.cloudsAll }}</td>
     </tr>
   </tbody>
 </table>
