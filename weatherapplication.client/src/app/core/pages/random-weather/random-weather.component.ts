@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { HttpService, WeatherForecast } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-random-weather',
@@ -16,22 +10,10 @@ interface WeatherForecast {
 export class RandomWeatherComponent implements OnInit {
   public forecasts: WeatherForecast[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpService) {}
 
   ngOnInit() {
-    this.getForecasts();    
+   this.http.getForecasts().subscribe(x => this.forecasts = x) ;
   }
-
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
   title = 'weatherapplication.client';
 }
