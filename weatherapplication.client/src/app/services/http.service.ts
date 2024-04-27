@@ -15,6 +15,9 @@ export interface CurrentWeather {
   cloudsAll: number;
 }
 @Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class HttpService {
   constructor(private http: HttpClient) {}
   getForecasts() {
