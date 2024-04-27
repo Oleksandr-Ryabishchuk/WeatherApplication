@@ -1,23 +1,23 @@
 <div>
-    <form method="GET">
+    <form *ngIf="form" [formGroup]="form">
         <table class="table table-borderless">
               <tr>
                 <th>City Name:</th>
                 <th>Your e-mail:</th>
+                <th>City Code:</th>
                 <th>State Code:</th>
-                <th>Country Code:</th>
               </tr>
               <tr>
-                <td><input type="text" id="city" class="btn btn-outline-light" required placeholder="Innsbruck"></td>
-                <td><input type="email" id="mail" class="btn btn-outline-light" required placeholder="johndoe@example.com"></td>
-                <td><input type="number" id="state" class="btn btn-outline-light"></td>
-                <td><input type="number" id="country" class="btn btn-outline-light"></td>
+                <td><input type="text" formControlName="city" class="btn btn-outline-light" required></td>
+                <td><input type="email" formControlName="email" class="btn btn-outline-light" required></td>
+                <td><input type="number" formControlName="cityCode" class="btn btn-outline-light"></td>
+                <td><input type="number" formControlName="stateCode" class="btn btn-outline-light"></td>
               </tr>
               <tr>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><button type="submit" class="btn btn-outline-info" id="getcweather">Get Current Weather</button></td>
+                <td><button type="submit" class="btn btn-outline-info" (click)="onSubmit()" id="getcweather">Get Current Weather</button></td>
               </tr>
           </table>
     </form>
