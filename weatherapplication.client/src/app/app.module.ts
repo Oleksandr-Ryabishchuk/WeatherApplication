@@ -10,6 +10,7 @@ import { StatisticsPageComponent } from './core/pages/statistics-page/statistics
 import { RandomWeatherComponent } from './core/pages/random-weather/random-weather.component';
 import { HttpService } from './services/http.service';
 import { CurrentWeatherFormComponent } from './core/components/current-weather-form/current-weather-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,8 @@ import { CurrentWeatherFormComponent } from './core/components/current-weather-f
     HttpClientModule, 
     AppRoutingModule,
     RouterModule.forRoot([{ path: '**', component: RandomWeatherComponent }]),
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [CurrentWeatherPageComponent, FivedaysWeatherPageComponent, StatisticsPageComponent],
   providers: [],
