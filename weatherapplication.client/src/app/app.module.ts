@@ -9,6 +9,7 @@ import { FivedaysWeatherPageComponent } from './core/pages/fivedays-weather-page
 import { StatisticsPageComponent } from './core/pages/statistics-page/statistics-page.component';
 import { RandomWeatherComponent } from './core/pages/random-weather/random-weather.component';
 import { HttpService } from './services/http.service';
+import { CurrentWeatherFormComponent } from './core/components/current-weather-form/current-weather-form.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HttpService } from './services/http.service';
     RandomWeatherComponent,
     CurrentWeatherPageComponent,
     FivedaysWeatherPageComponent,
-    StatisticsPageComponent
+    StatisticsPageComponent,
+    CurrentWeatherFormComponent
   ],
   imports: [
     BrowserModule, 
