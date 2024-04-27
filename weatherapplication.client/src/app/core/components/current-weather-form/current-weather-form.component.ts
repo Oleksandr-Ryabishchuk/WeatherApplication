@@ -1,32 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { CurrentWeatherQuery } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-current-weather-form',
   templateUrl: './current-weather-form.component.html',
-  styleUrls: ['./current-weather-form.component.css']
+  styleUrls: ['./current-weather-form.component.css'],
 })
 export class CurrentWeatherFormComponent implements OnInit {
-  form?:UntypedFormGroup;
-  city: string | null = null;
-  email: string | null = null;
-  cityCode: number | null = null;
-  stateCode: number | null = null;
-  constructor(private formBuilder:UntypedFormBuilder){
-    
-  }
+  form?: UntypedFormGroup;
+  currentWeatherQuery: CurrentWeatherQuery | null = null;
+  @Output() weatherEmitter = new EventEmitter<Partial<CurrentWeatherQuery>>();
+
+  constructor(private formBuilder: UntypedFormBuilder) {}
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      city: ["Please write your city"],
-      email: ["Please write your email"],
+      city: [''],
+      email: [''],
       cityCode: [null],
-      stateCode: [null]
+      stateCode: [null],
     });
   }
-  onSubmit(){
-    console.log(this.form?.value.city);
-    console.log(this.form?.value.email);
-    console.log(this.form?.value.cityCode);
-    console.log(this.form?.value.stateCode);
+  onSubmit() {
+    this.weatherEmitter.emit({
+      city: this.form?.value.city,
+      email: this.form?.value.email,
+      cityCode: this.form?.value.cityCode,
+      stateCode: this.form?.value.stateCode,
+    });
   }
 }

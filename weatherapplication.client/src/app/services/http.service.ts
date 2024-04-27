@@ -14,6 +14,12 @@ export interface CurrentWeather {
   windSpeed: number;
   cloudsAll: number;
 }
+export interface CurrentWeatherQuery {
+  city: string;
+  email: string;
+  cityCode: number;
+  stateCode: number;
+}
 @Injectable({ providedIn: 'root' })
 @Injectable({
   providedIn: 'root',
@@ -21,9 +27,18 @@ export interface CurrentWeather {
 export class HttpService {
   constructor(private http: HttpClient) {}
   getForecasts() {
-    return this.http.get<WeatherForecast[]>('/weatherforecast'); 
+    return this.http.get<WeatherForecast[]>('/weatherforecast');
   }
-  getCurrentWeather(cityName: string, userEmail: string, stateCode: number | null, countryCode: number | null) {
-    return this.http.get<CurrentWeather>(`/weatherforecast/CurrentWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${stateCode || ''}&countryCode=${countryCode || ''}`); 
+  getCurrentWeather(
+    cityName: string,
+    userEmail: string,
+    stateCode: number | null,
+    countryCode: number | null
+  ) {
+    return this.http.get<CurrentWeather>(
+      `/weatherforecast/CurrentWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
+        stateCode || ''
+      }&countryCode=${countryCode || ''}`
+    );
   }
 }
