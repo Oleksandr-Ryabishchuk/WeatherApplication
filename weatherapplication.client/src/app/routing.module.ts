@@ -12,7 +12,7 @@ const routes: Routes = [
     { path: 'statistics', component: StatisticsPageComponent },
     { path: '', redirectTo: 'randomweather', pathMatch: 'full' }
   ];
-  
+  //hello world!
   @NgModule({
     imports: [
       RouterModule.forRoot(routes),
