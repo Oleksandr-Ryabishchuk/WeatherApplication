@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FivedaysWeatherPageComponent } from '../core/pages/fivedays-weather-page/fivedays-weather-page.component';
 
 export interface WeatherForecast {
   date: string;
@@ -74,16 +73,16 @@ export class HttpService {
       }&countryCode=${countryCode || ''}`
     );
   }
-    getFiveDaysWeather(
-      cityName: string,
-      userEmail: string,
-      stateCode: number | null,
-      countryCode: number | null
-    ) {
-      return this.http.get<FiveDaysWeather>(
-        `/weatherforecast/FiveDaysWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
-          stateCode || ''
-        }&countryCode=${countryCode || ''}`
-      );
-    }
-  } 
+  getFiveDaysWeather(
+    cityName: string,
+    userEmail: string,
+    stateCode: number | null,
+    countryCode: number | null
+  ) {
+    return this.http.get<FiveDaysWeather>(
+      `/weatherforecast/FiveDaysWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
+        stateCode || ''
+      }&countryCode=${countryCode || ''}`
+    );
+  }
+}

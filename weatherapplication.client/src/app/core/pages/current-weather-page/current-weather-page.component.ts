@@ -10,11 +10,10 @@ import {
   templateUrl: './current-weather-page.component.html',
   styleUrls: ['./current-weather-page.component.css'],
 })
-export class CurrentWeatherPageComponent implements OnInit {
+export class CurrentWeatherPageComponent {
   currentWeather: CurrentWeather | null = null;
   constructor(private http: HttpService) {}
 
-  ngOnInit() {}
   getCurrentWeather(query: Partial<CurrentWeatherQuery>) {
     if (query) {
       this.http

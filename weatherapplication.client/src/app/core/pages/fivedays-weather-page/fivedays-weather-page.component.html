@@ -1,3 +1,44 @@
 <app-current-weather-form
   (weatherEmitter)="getFiveDaysWeather($event)"
 ></app-current-weather-form>
+<table class="table table-borderless table-striped" *ngIf="fiveDaysWeather">
+  <thead>
+    <tr>
+      <th>Temp. (C)</th>
+      <th>Presssure</th>
+      <th>Humidity</th>
+      <th>Wind speed</th>
+      <th>Clouds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- <tr>
+      <td>{{ fiveDaysWeather.Dt }}</td>
+      <td>{{ fiveDaysWeather.FeelsLike }}</td>
+      <td>{{ fiveDaysWeather.GroundLevel }}</td>
+      <td>{{ fiveDaysWeather.Humidity }}</td>
+      <td>{{ fiveDaysWeather.Lat }}</td>
+      <td>{{ fiveDaysWeather.Lon }}</td>
+      <td>{{ fiveDaysWeather.MinMaxTempDiff }}</td>
+      <td>{{ fiveDaysWeather.Pop }}</td>
+      <td>{{ fiveDaysWeather.Population }}</td>
+      <td>{{ fiveDaysWeather.Pressure }}</td>
+      <td>{{ fiveDaysWeather.Rain }}</td>
+      <td>{{ fiveDaysWeather.SeaLevel }}</td>
+      <td>{{ fiveDaysWeather.Snow }}</td>
+      <td>{{ fiveDaysWeather.Sunrise }}</td>
+      <td>{{ fiveDaysWeather.Sunset }}</td>
+      <td>{{ fiveDaysWeather.Temp }}</td>
+      <td>{{ fiveDaysWeather.TempMax }}</td>
+      <td>{{ fiveDaysWeather.TempMin }}</td>
+      <td>{{ fiveDaysWeather.Timezone }}</td>
+      <td>{{ fiveDaysWeather.Visibility }}</td>
+      <td>{{ fiveDaysWeather.WeatherDescription }}</td>
+      <td>{{ fiveDaysWeather.WeatherIcon }}</td>
+      <td>{{ fiveDaysWeather.WeatherMain }}</td>
+      <td>{{ fiveDaysWeather.WindDeg }}</td>
+      <td>{{ fiveDaysWeather.WindGust }}</td>
+      <td>{{ fiveDaysWeather.WindSpeed }}</td>
+    </tr> -->
+  </tbody>
+</table>
