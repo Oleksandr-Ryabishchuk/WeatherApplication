@@ -1,0 +1,26 @@
+<table class="table table-borderless table-striped"  *ngIf="fiveDaysWeatherData">
+    <thead>
+      <tr>
+        <th>CityName</th>
+        <th>Country</th>
+        <th>Lat</th>
+        <th>Lon</th>
+        <th>Population</th>
+        <th>Sunrise</th>
+        <th>Sunset</th>
+        <th>Timezone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>{{fiveDaysWeatherData.cityName}}</th>
+        <th>{{fiveDaysWeatherData.country}}</th>
+        <th>{{fiveDaysWeatherData.lat}}</th>
+        <th>{{fiveDaysWeatherData.lon}}</th>
+        <th>{{fiveDaysWeatherData.population}}</th>
+        <th>{{fiveDaysWeatherData.sunrise}}</th>
+        <th>{{fiveDaysWeatherData.sunset}}</th>
+        <th>{{fiveDaysWeatherData.timezone}}</th>
+      </tr>
+    </tbody>
+  </table>
