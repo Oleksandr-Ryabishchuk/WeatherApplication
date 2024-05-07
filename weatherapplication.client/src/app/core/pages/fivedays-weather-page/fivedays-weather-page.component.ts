@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import {
   CurrentWeatherQuery,
   FiveDaysWeather,
@@ -6,12 +6,12 @@ import {
 } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-fivedays-weather-page',
+  selector: 'fivedays-weather-page',
   templateUrl: './fivedays-weather-page.component.html',
   styleUrls: ['./fivedays-weather-page.component.css'],
 })
 export class FivedaysWeatherPageComponent {
-  fiveDaysWeather: FiveDaysWeather | null = null;
+fiveDaysWeather: FiveDaysWeather | null = null;
   constructor(private http: HttpService) {}
 
   getFiveDaysWeather(query: Partial<CurrentWeatherQuery>) {
@@ -23,7 +23,7 @@ export class FivedaysWeatherPageComponent {
           query.cityCode!,
           query.stateCode!
         )
-        .subscribe((x) => console.log(x));
+        .subscribe((x) => (this.fiveDaysWeather = x));
     }
   }
 }
