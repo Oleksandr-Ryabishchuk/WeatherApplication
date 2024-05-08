@@ -1,4 +1,6 @@
 <app-current-weather-form
   (weatherEmitter)="getFiveDaysWeather($event)"
 ></app-current-weather-form>
-<five-days-weather-table [fiveDaysWeatherData]="fiveDaysWeather"></five-days-weather-table>
+<five-days-weather-table
+  [fiveDaysWeatherData]="fiveDaysWeather"
+></five-days-weather-table>
