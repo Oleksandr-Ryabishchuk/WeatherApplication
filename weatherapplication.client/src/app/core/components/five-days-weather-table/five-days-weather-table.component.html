@@ -23,4 +23,56 @@
         <th>{{fiveDaysWeatherData.timezone}}</th>
       </tr>
     </tbody>
+    <thead>
+      <tr>
+        <th>CloudsAll</th>
+        <th>DateText</th>
+        <th>Dt</th>
+        <th>FeelsLike</th>
+        <th>GroundLevel</th>
+        <th>Humidity</th>
+        <th>MinMaxTempDiff</th>
+        <th>Pop</th>
+        <th>Pressure</th>
+        <th>Rain</th>
+        <th>SeaLevel</th>
+        <th>Snow</th>
+        <th>Temp</th>
+        <th>TempMax</th>
+        <th>TempMin</th>
+        <th>Visibility</th>
+        <th>WeatherDescription</th>
+        <th>WeatherIcon</th>
+        <th>WeatherMain</th>
+        <th>WindDeg</th>
+        <th>WindGust</th>
+        <th>WindSpeed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of fiveDaysWeatherData.items">
+        <th>{{item.cloudsAll}}</th>
+        <th>{{item.dateText}}</th>
+        <th>{{item.dt}}</th>
+        <th>{{item.feelsLike}}</th>
+        <th>{{item.groundLevel}}</th>
+        <th>{{item.humidity}}</th>
+        <th>{{item.minMaxTempDiff}}</th>
+        <th>{{item.pop}}</th>
+        <th>{{item.pressure}}</th>
+        <th>{{item.rain}}</th>
+        <th>{{item.seaLevel}}</th>
+        <th>{{item.snow}}</th>
+        <th>{{item.temp}}</th>
+        <th>{{item.tempMax}}</th>
+        <th>{{item.tempMin}}</th>
+        <th>{{item.visibility}}</th>
+        <th>{{item.weatherDescription}}</th>
+        <th>{{item.weatherIcon}}</th>
+        <th>{{item.weatherMain}}</th>
+        <th>{{item.windDeg}}</th>
+        <th>{{item.windGust}}</th>
+        <th>{{item.windSpeed}}</th>
+      </tr>
+    </tbody>
   </table>
