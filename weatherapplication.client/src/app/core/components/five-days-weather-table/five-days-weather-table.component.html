@@ -1,29 +1,73 @@
 <table class="table table-borderless table-striped"  *ngIf="fiveDaysWeatherData">
     <thead>
       <tr>
-        <th>CityName</th>
+        <th>City Name</th>
         <th>Country</th>
+        <th>Date</th>
         <th>Lat</th>
         <th>Lon</th>
         <th>Population</th>
         <th>Sunrise</th>
         <th>Sunset</th>
-        <th>Timezone</th>
+        <th>Time Zone</th>
+        <th>Cloud Percentage</th>
+        <th>Dt</th>
+        <th>Feels Like</th>
+        <th>Ground Level</th>
+        <th>Humidity</th>
+        <th>Difference between max and min temperature</th>
+        <th>Pop</th>
+        <th>Pressure</th>
+        <th>Rain</th>
+        <th>Sea Level</th>
+        <th>Snow</th>
+        <th>Temp</th>
+        <th>Temperature Max</th>
+        <th>Temperature Min</th>
+        <th>Visibility</th>
+        <th>Weather Description</th>
+        <th>Weather Icon</th>
+        <th>Weather Main</th>
+        <th>Wind Angle</th>
+        <th>Wind Gust</th>
+        <th>Wind Speed</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngFor="let item of fiveDaysWeatherData.items">
       <tr>
         <th>{{fiveDaysWeatherData.cityName}}</th>
         <th>{{fiveDaysWeatherData.country}}</th>
+        <th>{{item.dateText}}</th>
         <th>{{fiveDaysWeatherData.lat}}</th>
         <th>{{fiveDaysWeatherData.lon}}</th>
         <th>{{fiveDaysWeatherData.population}}</th>
         <th>{{fiveDaysWeatherData.sunrise}}</th>
         <th>{{fiveDaysWeatherData.sunset}}</th>
         <th>{{fiveDaysWeatherData.timezone}}</th>
+        <th>{{item.cloudsAll}}</th>
+        <th>{{item.dt}}</th>
+        <th>{{item.feelsLike}}</th>
+        <th>{{item.groundLevel}}</th>
+        <th>{{item.humidity}}</th>
+        <th>{{item.minMaxTempDiff}}</th>
+        <th>{{item.pop}}</th>
+        <th>{{item.pressure}}</th>
+        <th>{{item.rain}}</th>
+        <th>{{item.seaLevel}}</th>
+        <th>{{item.snow}}</th>
+        <th>{{item.temp}}</th>
+        <th>{{item.tempMax}}</th>
+        <th>{{item.tempMin}}</th>
+        <th>{{item.visibility}}</th>
+        <th>{{item.weatherDescription}}</th>
+        <th>{{item.weatherIcon}}</th>
+        <th>{{item.weatherMain}}</th>
+        <th>{{item.windDeg}}</th>
+        <th>{{item.windGust}}</th>
+        <th>{{item.windSpeed}}</th>
       </tr>
     </tbody>
-    <thead>
+    <!--<thead>
       <tr>
         <th>CloudsAll</th>
         <th>DateText</th>
@@ -74,5 +118,5 @@
         <th>{{item.windGust}}</th>
         <th>{{item.windSpeed}}</th>
       </tr>
-    </tbody>
+    </tbody>-->
   </table>
