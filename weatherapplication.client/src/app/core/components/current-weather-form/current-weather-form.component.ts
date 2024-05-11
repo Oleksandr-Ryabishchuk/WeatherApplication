@@ -21,7 +21,7 @@ export class CurrentWeatherFormComponent implements OnInit {
       stateCode: [null],
     });
   }
-  onSubmit() {
+  getData() {
     this.weatherEmitter.emit({
       city: this.form?.value.city,
       email: this.form?.value.email,

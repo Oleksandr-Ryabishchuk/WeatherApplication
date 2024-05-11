@@ -1,24 +1,38 @@
 <div>
-    <form *ngIf="form" [formGroup]="form">
-        <table class="table table-borderless">
-              <tr>
-                <th>City Name:</th>
-                <th>Your e-mail:</th>
-                <th>City Code:</th>
-                <th>State Code:</th>
-              </tr>
-              <tr>
-                <td><input type="text" formControlName="city" class="btn btn-outline-light" required></td>
-                <td><input type="email" formControlName="email" class="btn btn-outline-light" required></td>
-                <td><input type="number" formControlName="cityCode" class="btn btn-outline-light"></td>
-                <td><input type="number" formControlName="stateCode" class="btn btn-outline-light"></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><button type="submit" class="btn btn-outline-info" (click)="onSubmit()" id="getcweather">Get Current Weather</button></td>
-              </tr>
-          </table>
-    </form>
+  <form *ngIf="form" [formGroup]="form">
+    <table class="table table-borderless">
+      <tr>
+        <th>City Name:</th>
+        <th>Your e-mail:</th>
+        <th>City Code:</th>
+        <th>State Code:</th>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" formControlName="city" class="btn" required />
+        </td>
+        <td>
+          <input type="email" formControlName="email" class="btn" required />
+        </td>
+        <td>
+          <input type="number" formControlName="cityCode" class="btn" />
+        </td>
+        <td>
+          <input type="number" formControlName="stateCode" class="btn" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button
+            type="submit"
+            class="btn"
+            (click)="getData()"
+            id="getcweather"
+          >
+            Get Data
+          </button>
+        </td>
+      </tr>
+    </table>
+  </form>
 </div>
