@@ -9,45 +9,24 @@
       </tr>
       <tr>
         <td>
-          <input
-            type="text"
-            formControlName="city"
-            class="btn"
-            required
-          />
+          <input type="text" formControlName="city" class="btn" required />
         </td>
         <td>
-          <input
-            type="email"
-            formControlName="email"
-            class="btn"
-            required
-          />
+          <input type="email" formControlName="email" class="btn" required />
         </td>
         <td>
-          <input
-            type="number"
-            formControlName="cityCode"
-            class="btn"
-          />
+          <input type="number" formControlName="cityCode" class="btn" />
         </td>
         <td>
-          <input
-            type="number"
-            formControlName="stateCode"
-            class="btn"
-          />
+          <input type="number" formControlName="stateCode" class="btn" />
         </td>
       </tr>
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
         <td>
           <button
             type="submit"
             class="btn"
-            (click)="onSubmit()"
+            (click)="getData()"
             id="getcweather"
           >
             Get Data
