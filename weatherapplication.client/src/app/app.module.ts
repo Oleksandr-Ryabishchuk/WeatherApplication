@@ -11,6 +11,7 @@ import { RandomWeatherComponent } from './core/pages/random-weather/random-weath
 import { CurrentWeatherFormComponent } from './core/components/current-weather-form/current-weather-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiveDaysWeatherTableComponent } from './core/components/five-days-weather-table/five-days-weather-table.component';
+import { MainBodyComponent } from './core/components/main-body/main-body.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,6 @@ import { FiveDaysWeatherTableComponent } from './core/components/five-days-weath
     StatisticsPageComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MainBodyComponent]
 })
 export class AppModule {}
