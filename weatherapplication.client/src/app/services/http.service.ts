@@ -71,6 +71,8 @@ export interface RecordQuery {
   email: string;
   cityCode: number;
   stateCode: number;
+  startedDate: number;
+  finalDate: number;
 }
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -100,6 +102,18 @@ export class HttpService {
       `/weatherforecast/FiveDaysWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
         stateCode || ''
       }&countryCode=${countryCode || ''}`
+    );
+  }
+  getRecord(
+    cityName: string,
+    userEmail: string,
+    startedDate: number | null,
+    finalDate: number | null
+  ) {
+    return this.http.get<Record>(
+      `/weatherforecast/statistics?cityName=${cityName}&userEmail=${userEmail}&startedDate=${
+        startedDate || ''
+      }&finalDate=${finalDate || ''}`
     );
   }
 }
