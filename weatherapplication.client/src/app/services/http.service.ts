@@ -49,7 +49,24 @@ export interface FiveDaysWeather {
    sunset: number;
    timezone : number;
 }
+export interface Record {
+   items: Item[];
+   cityName: string;
+   country:  string;
+   lat : number;
+   lon : number;
+   population: number;
+   sunrise : number;
+   sunset: number;
+   timezone : number;
+}
 export interface CurrentWeatherQuery {
+  city: string;
+  email: string;
+  cityCode: number;
+  stateCode: number;
+}
+export interface RecordQuery {
   city: string;
   email: string;
   cityCode: number;
