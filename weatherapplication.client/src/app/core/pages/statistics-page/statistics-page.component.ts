@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./statistics-page.component.css']
 })
 export class StatisticsPageComponent {
+  tab="currents"
 
 }

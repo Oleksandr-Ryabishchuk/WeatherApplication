@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FivedaysWeatherPageComponent } from '../core/pages/fivedays-weather-page/fivedays-weather-page.component';
 
 export interface WeatherForecast {
   date: string;
@@ -15,37 +14,51 @@ export interface CurrentWeather {
   windSpeed: number;
   cloudsAll: number;
 }
+export interface Item {
+  dt: number;
+  temp: number;
+  feelsLike: number;
+  tempMin: number;
+  tempMax: number;
+  pressure: number;
+  seaLevel: number;
+  groundLevel: number;
+  humidity: number;
+  minMaxTempDiff: number;
+  weatherMain: string;
+  weatherDescription: string;
+  weatherIcon: string;
+  visibility: number;
+  pop: number;
+  rain: string | null;
+  snow: string | null;
+  dateText: string;
+  cloudsAll: number;
+  windSpeed: number;
+  windDeg: number;
+  windGust: number;
+}
 export interface FiveDaysWeather {
-  Dt: number;
-  Temp: number;
-  FeelsLike: number;
-  TempMin: number;
-  TempMax: number;
-  Pressure: number;
-  SeaLevel: number;
-  GroundLevel: number;
-  Humidity: number;
-  MinMaxTempDiff: number;
-  WeatherMain: string;
-  WeatherDescription: string;
-  WeatherIcon: string;
-  Visibility: number;
-  Pop: number;
-  Rain: string | null;
-  Snow: string | null;
-  DateText: string;
-  CloudsAll: number;
-  WindSpeed: number;
-  WindDeg: number;
-  WindGust: number;
-  CityName: string;
-  Lat: number;
-  Lon: number;
-  Country: string;
-  Population: number;
-  Timezone: number;
-  Sunrise: number;
-  Sunset: number;
+   items: Item[];
+   cityName: string;
+   country:  string;
+   lat : number;
+   lon : number;
+   population: number;
+   sunrise : number;
+   sunset: number;
+   timezone : number;
+}
+export interface Record {
+   items: Item[];
+   cityName: string;
+   country:  string;
+   lat : number;
+   lon : number;
+   population: number;
+   sunrise : number;
+   sunset: number;
+   timezone : number;
 }
 export interface CurrentWeatherQuery {
   city: string;
@@ -53,10 +66,13 @@ export interface CurrentWeatherQuery {
   cityCode: number;
   stateCode: number;
 }
+export interface RecordQuery {
+  city: string;
+  email: string;
+  cityCode: number;
+  stateCode: number;
+}
 @Injectable({ providedIn: 'root' })
-@Injectable({
-  providedIn: 'root',
-})
 export class HttpService {
   constructor(private http: HttpClient) {}
   getForecasts() {
@@ -74,16 +90,16 @@ export class HttpService {
       }&countryCode=${countryCode || ''}`
     );
   }
-    getFiveDaysWeather(
-      cityName: string,
-      userEmail: string,
-      stateCode: number | null,
-      countryCode: number | null
-    ) {
-      return this.http.get<FiveDaysWeather>(
-        `/weatherforecast/FiveDaysWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
-          stateCode || ''
-        }&countryCode=${countryCode || ''}`
-      );
-    }
-  } 
+  getFiveDaysWeather(
+    cityName: string,
+    userEmail: string,
+    stateCode: number | null,
+    countryCode: number | null
+  ) {
+    return this.http.get<FiveDaysWeather>(
+      `/weatherforecast/FiveDaysWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
+        stateCode || ''
+      }&countryCode=${countryCode || ''}`
+    );
+  }
+}

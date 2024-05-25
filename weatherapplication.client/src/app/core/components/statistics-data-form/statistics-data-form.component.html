@@ -1,0 +1,39 @@
+<div>
+    <form *ngIf="form" [formGroup]="form">
+      <table class="table table-borderless">
+        <tr>
+          <th>City Name:</th>
+          <th>Your e-mail:</th>
+          <th>City Code:</th>
+          <th>State Code:</th>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" formControlName="city" class="btn" required />
+          </td>
+          <td>
+            <input type="email" formControlName="email" class="btn" required />
+          </td>
+          <td>
+            <input type="number" formControlName="cityCode" class="btn" />
+          </td>
+          <td>
+            <input type="number" formControlName="stateCode" class="btn" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button
+              type="submit"
+              class="btn"
+              (click)="getStatisticData()"
+              id="getcweather"
+            >
+              Get Data
+            </button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  

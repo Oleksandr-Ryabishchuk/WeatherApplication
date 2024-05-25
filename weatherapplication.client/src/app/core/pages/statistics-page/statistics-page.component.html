@@ -1,1 +1,15 @@
-<p>statistics-page works!</p>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <button class="nav-link active" aria-current="page" [class.active]="tab === 'current'">Current Weather</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Hello World</th>
+          </tr>
+        </thead>
+      </table>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'fiveDays'" (click)="tab = 'fiveDays'">Five Days Weather</button>
+    </li>
+  </ul>
