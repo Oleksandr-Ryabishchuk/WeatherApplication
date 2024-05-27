@@ -15,8 +15,8 @@ import {
 export class StatisticsPageComponent {
   http = inject(HttpService);
   record: Record[] | null = null;
-  currentWeather?: (CurrentWeather | undefined)[] | null = null;
-  fiveDaysWeather?: (FiveDaysWeather | undefined)[] | null = null;
+  currentWeather: (CurrentWeather | undefined)[] | null = null;
+  fiveDaysWeather: (FiveDaysWeather | undefined)[] | null = null;
 
   getStatistics(query: Partial<StatisticsQuery>) {
     if (query) {
@@ -24,7 +24,18 @@ export class StatisticsPageComponent {
         .getStatistics(query.userEmail!, query.fromDate, query.toDate)
         .subscribe((x) => {
           this.record = x;
-          this.currentWeather = x.map((a) => a.currentWeather);
+          this.currentWeather = x.map(a => {
+            let weather = a.currentWeather;
+            if(weather) {
+              weather.createdAt = a.createdAt;
+              weather.isFromRecord = true;
+              weather.state = a.state;
+              weather.lat = a.lat;
+              weather.lon = a.lon;
+            }            
+            return weather;
+          }
+          );
           this.fiveDaysWeather = x.map((q) => q.fiveDaysWeather);
         });
     }

@@ -1,16 +1,16 @@
 <table class="table table-borderless table-striped" *ngIf="currentWeather">
-  <thead>
+   <thead *ngIf="counter === 0 || !counter"><!-- <= Try to remove this check and you will see that we lack that we can actually get from CurrentWeatherDto  -->
     <tr>
       <th>Temp. (K)</th>
       <th>Pressure</th>
       <th>Humidity</th>
       <th>Wind speed</th>
       <th>Clouds</th>
-      <th *ngIf="currentWeather.country">Country</th>
-      <th *ngIf="currentWeather.state">State</th>
-      <th *ngIf="currentWeather.createdAt">Created At</th>
-      <th *ngIf="currentWeather.lat">Latitude</th>
-      <th *ngIf="currentWeather.lon">Longitude</th>
+      <th *ngIf="currentWeather.isFromRecord">Country</th>
+      <th *ngIf="currentWeather.isFromRecord">State</th>
+      <th *ngIf="currentWeather.isFromRecord">Created At</th>
+      <th *ngIf="currentWeather.isFromRecord">Latitude</th>
+      <th *ngIf="currentWeather.isFromRecord">Longitude</th>
     </tr>
   </thead>
   <tbody>
@@ -18,9 +18,9 @@
       <td>{{ currentWeather.temp }}</td>
       <td>{{ currentWeather.pressure }}</td>
       <td>{{ currentWeather.humidity }}</td>
-      <td>{{ currentWeather.windSpeed }}</td>
-      <td>{{ currentWeather.cloudsAll }}</td>
-      <td>{{ currentWeather.country }}</td>
+      <td>{{ currentWeather.windSpeed ?? '-' }}</td>
+      <td>{{ currentWeather.cloudsAll ?? '-' }}</td>
+      <td>{{ currentWeather.country ?? '-'}}</td>
       <td>{{ currentWeather.state}}</td>
       <td>{{ currentWeather.createdAt | date }}</td>
       <td>{{ currentWeather.lat }}</td>
