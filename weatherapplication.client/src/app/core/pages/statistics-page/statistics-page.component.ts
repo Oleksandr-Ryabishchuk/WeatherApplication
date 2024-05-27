@@ -32,6 +32,7 @@ export class StatisticsPageComponent {
               weather.state = a.state;
               weather.lat = a.lat;
               weather.lon = a.lon;
+              weather.country = a.country
             }            
             return weather;
           }
