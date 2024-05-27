@@ -1,0 +1,19 @@
+<div class="row g-3 p-5" *ngIf="form" [formGroup]="form">
+  <div class="col">
+    <label>Email</label>
+    <input type="email" class="form-control" formControlName="userEmail" required />
+  </div>
+  <div class="col">
+    <label>From Date</label>
+    <input type="date" class="form-control" formControlName="fromDate"/>
+  </div>
+  <div class="col">
+    <label>To Date</label>
+    <input type="date" class="form-control" formControlName="toDate" />
+  </div>
+  <div class="container-sm d-flex justify-content-center pt-3">
+    <button type="submit" class="btn btn-success" (click)="getData()">
+      Get Statistics
+    </button>
+  </div>
+</div>

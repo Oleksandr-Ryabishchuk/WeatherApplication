@@ -32,21 +32,27 @@
           <li class="nav-item p-2">
             <a
               class="nav-link d-flex justify-content-center"
-              href="currentweather"
-              ><button class="btn btn-outline-light">Current Weather</button></a
+              routerLink="currentweather"
+              routerLinkActive="active"
+            >
+              <button class="btn btn-outline-light">Current Weather</button></a
             >
           </li>
           <li class="nav-item p-2">
             <a
               class="nav-link d-flex justify-content-center"
-              href="fivedaysweather"
+              routerLink="fivedaysweather"
+              routerLinkActive="active"
               ><button class="btn btn-outline-light">5-Day Forecast</button></a
             >
           </li>
           <li class="nav-item p-2">
-            <a class="nav-link d-flex justify-content-center" href="statistics"
-              ><button class="btn btn-outline-light">Statistics</button></a
-            >
+            <a
+              class="nav-link d-flex justify-content-center"
+              routerLink="statistics"
+               routerLinkActive="active"
+              ><button class="btn btn-outline-light">Statistics</button>
+            </a>
           </li>
         </ul>
       </div>

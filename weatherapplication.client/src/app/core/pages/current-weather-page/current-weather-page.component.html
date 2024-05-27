@@ -1,23 +1,5 @@
+<h1 class="d-flex justify-content-center">Current Weather</h1>
 <app-current-weather-form
   (weatherEmitter)="getCurrentWeather($event)"
 ></app-current-weather-form>
-<table class="table table-borderless table-striped" *ngIf="currentWeather">
-  <thead>
-    <tr>
-      <th>Temp. (C)</th>
-      <th>Presssure</th>
-      <th>Humidity</th>
-      <th>Wind speed</th>
-      <th>Clouds</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{{ currentWeather.temp }}</td>
-      <td>{{ currentWeather.pressure }}</td>
-      <td>{{ currentWeather.humidity }}</td>
-      <td>{{ currentWeather.windSpeed }}</td>
-      <td>{{ currentWeather.cloudsAll }}</td>
-    </tr>
-  </tbody>
-</table>
+<current-weather-table [currentWeather]="currentWeather"></current-weather-table>

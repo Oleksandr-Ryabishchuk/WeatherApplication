@@ -1,0 +1,30 @@
+<table class="table table-borderless table-striped" *ngIf="currentWeather">
+  <thead>
+    <tr>
+      <th>Temp. (K)</th>
+      <th>Pressure</th>
+      <th>Humidity</th>
+      <th>Wind speed</th>
+      <th>Clouds</th>
+      <th *ngIf="currentWeather.country">Country</th>
+      <th *ngIf="currentWeather.state">State</th>
+      <th *ngIf="currentWeather.createdAt">Created At</th>
+      <th *ngIf="currentWeather.lat">Latitude</th>
+      <th *ngIf="currentWeather.lon">Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ currentWeather.temp }}</td>
+      <td>{{ currentWeather.pressure }}</td>
+      <td>{{ currentWeather.humidity }}</td>
+      <td>{{ currentWeather.windSpeed }}</td>
+      <td>{{ currentWeather.cloudsAll }}</td>
+      <td>{{ currentWeather.country }}</td>
+      <td>{{ currentWeather.state}}</td>
+      <td>{{ currentWeather.createdAt | date }}</td>
+      <td>{{ currentWeather.lat }}</td>
+      <td>{{ currentWeather.lon }}</td>
+    </tr>
+  </tbody>
+</table>

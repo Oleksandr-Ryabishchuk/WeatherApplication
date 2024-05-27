@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterLink, RouterModule, Routes } from '@angular/router';
 import { RandomWeatherComponent } from './core/pages/random-weather/random-weather.component';
 import { CurrentWeatherPageComponent } from './core/pages/current-weather-page/current-weather-page.component';
 import { FivedaysWeatherPageComponent } from './core/pages/fivedays-weather-page/fivedays-weather-page.component';
@@ -14,6 +14,6 @@ const routes: Routes = [
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule, RouterLink]
 })
 export class AppRoutingModule {}
