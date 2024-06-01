@@ -1,30 +1,32 @@
 <table class="table table-borderless table-striped" *ngIf="currentWeather">
-   <thead *ngIf="counter === 0 || !counter"><!-- <= Try to remove this check -->
+  <thead *ngIf="currentWeather && currentWeather.length">
     <tr>
       <th>Temp. (K)</th>
       <th>Pressure</th>
       <th>Humidity</th>
-      <th>Wind speed</th>
+      <th>Wind Speed</th>
       <th>Clouds</th>
-      <th *ngIf="currentWeather.isFromRecord">Country</th>
-      <th *ngIf="currentWeather.isFromRecord">State</th>
-      <th *ngIf="currentWeather.isFromRecord">Created At</th>
-      <th *ngIf="currentWeather.isFromRecord">Latitude</th>
-      <th *ngIf="currentWeather.isFromRecord">Longitude</th>
+      <th *ngIf="currentWeather.length > 1">Country</th>
+      <th *ngIf="currentWeather.length > 1">State</th>
+      <th *ngIf="currentWeather.length > 1">Created At</th>
+      <th *ngIf="currentWeather.length > 1">Latitude</th>
+      <th *ngIf="currentWeather.length > 1">Longitude</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td>{{ currentWeather.temp }}</td>
-      <td>{{ currentWeather.pressure }}</td>
-      <td>{{ currentWeather.humidity }}</td>
-      <td>{{ currentWeather.windSpeed}}</td>
-      <td>{{ currentWeather.cloudsAll }}</td>
-      <td>{{ currentWeather.country }}</td>
-      <td>{{ currentWeather.state}}</td>
-      <td>{{ currentWeather.createdAt | date }}</td>
-      <td>{{ currentWeather.lat }}</td>
-      <td>{{ currentWeather.lon }}</td>
-    </tr>
-  </tbody>
+  <ng-container *ngFor="let item of currentWeather; let i = index">
+    <tbody>
+      <tr>
+        <td>{{ item?.temp }}</td>
+        <td>{{ item?.pressure }}</td>
+        <td>{{ item?.humidity }}</td>
+        <td>{{ item?.windSpeed }}</td>
+        <td>{{ item?.cloudsAll }}</td>
+        <td>{{ item?.country }}</td>
+        <td>{{ item?.state }}</td>
+        <td>{{ item?.createdAt | date }}</td>
+        <td>{{ item?.lat }}</td>
+        <td>{{ item?.lon }}</td>
+      </tr>
+    </tbody>
+  </ng-container>
 </table>

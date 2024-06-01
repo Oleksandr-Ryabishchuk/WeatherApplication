@@ -11,7 +11,7 @@ import {
   styleUrls: ['./fivedays-weather-page.component.css'],
 })
 export class FivedaysWeatherPageComponent {
-fiveDaysWeather: FiveDaysWeather | null = null;
+fiveDaysWeather: FiveDaysWeather[] | null = [];
   constructor(private http: HttpService) {}
 
   getFiveDaysWeather(query: Partial<CurrentWeatherQuery>) {
@@ -23,7 +23,11 @@ fiveDaysWeather: FiveDaysWeather | null = null;
           query.cityCode!,
           query.stateCode!
         )
-        .subscribe((x) => (this.fiveDaysWeather = x));
+        .subscribe((x) => {
+          if (this.fiveDaysWeather) {
+          this.fiveDaysWeather?.pop();
+        }
+        this.fiveDaysWeather?.push(x);})
     }
   }
 }

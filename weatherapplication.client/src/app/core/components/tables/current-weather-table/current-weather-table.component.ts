@@ -7,7 +7,6 @@ import { CurrentWeather } from 'src/app/services/http.service';
   styleUrls: ['./current-weather-table.component.css'],
 })
 export class CurrentWeatherTableComponent{
-  @Input() currentWeather: (CurrentWeather|undefined) | null = null;
-  @Input() counter: number = 0;
+  @Input() currentWeather: (CurrentWeather|undefined)[] | null = [];
 
 }

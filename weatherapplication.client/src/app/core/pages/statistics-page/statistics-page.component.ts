@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   CurrentWeather,
   FiveDaysWeather,
@@ -14,29 +14,26 @@ import {
 })
 export class StatisticsPageComponent {
   http = inject(HttpService);
-  record: Record[] | null = null;
-  currentWeather: (CurrentWeather | undefined)[] | null = null;
-  fiveDaysWeather: (FiveDaysWeather | undefined)[] | null = null;
+  currentWeather: (CurrentWeather | undefined)[] | null = [];
+  fiveDaysWeather: (FiveDaysWeather | undefined)[] | null = [];
 
   getStatistics(query: Partial<StatisticsQuery>) {
     if (query) {
       this.http
         .getStatistics(query.userEmail!, query.fromDate, query.toDate)
         .subscribe((x) => {
-          this.record = x;
-          this.currentWeather = x.map(a => {
+           x.forEach((a) => {
             let weather = a.currentWeather;
-            if(weather) {
+            if (weather && a.currentWeather !== null) {
               weather.createdAt = a.createdAt;
               weather.isFromRecord = true;
               weather.state = a.state;
               weather.lat = a.lat;
               weather.lon = a.lon;
-              weather.country = a.country
-            }            
-            return weather;
-          }
-          );
+              weather.country = a.country;
+              this.currentWeather?.push(weather)
+            };
+          });
           this.fiveDaysWeather = x.map((q) => q.fiveDaysWeather);
         });
     }

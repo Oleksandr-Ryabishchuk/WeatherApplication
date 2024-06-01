@@ -55,6 +55,8 @@ export interface FiveDaysWeather {
   sunset: number;
   timezone: number;
   isFromRecord: boolean;
+  createdAt?: Date;
+  state?: string;
 }
 export interface CurrentWeatherQuery {
   city: string;

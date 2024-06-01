@@ -1,4 +1,4 @@
-import { Component,} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   CurrentWeather,
   CurrentWeatherQuery,
@@ -11,7 +11,7 @@ import {
   styleUrls: ['./current-weather-page.component.css'],
 })
 export class CurrentWeatherPageComponent {
-  currentWeather: CurrentWeather | null = null;
+  currentWeather: CurrentWeather[] | null = [];
   constructor(private http: HttpService) {}
 
   getCurrentWeather(query: Partial<CurrentWeatherQuery>) {
@@ -23,7 +23,12 @@ export class CurrentWeatherPageComponent {
           query.cityCode!,
           query.stateCode!
         )
-        .subscribe((x) => (this.currentWeather = x));
+        .subscribe((x) => {
+          if (this.currentWeather) {
+            this.currentWeather?.pop();
+          }
+          this.currentWeather?.push(x);
+        });
     }
   }
 }
