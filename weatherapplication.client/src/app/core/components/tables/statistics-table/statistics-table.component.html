@@ -30,17 +30,10 @@
   </div>
 </div>
 
-<!-- <div *ngIf="activeTab === 'fiveDaysWeather'">
-  <div *ngFor="let record of record; let q = index">
-    <div *ngIf="record && record.fiveDaysWeather">
+<div *ngIf="activeTab === 'fiveDaysWeather'">
+  <div *ngIf="fiveDaysWeather">
       <five-days-weather-table
-        [country]="record.country"
-        [createdAt]="record.createdAt"
-        [lat]="record.lat"
-        [lon]="record.lon"
-        [state]="record.state"
-        [fiveDaysWeatherData]="record.fiveDaysWeather"
+        [fiveDaysWeatherData]="fiveDaysWeather"
       ></five-days-weather-table>
     </div>
-  </div>
-</div> -->
+</div>

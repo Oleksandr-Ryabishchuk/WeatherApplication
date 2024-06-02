@@ -8,7 +8,7 @@ import { FiveDaysWeather, Item } from 'src/app/services/http.service';
   styleUrls: ['./five-days-weather-table.component.css'],
 })
 export class FiveDaysWeatherTableComponent {
-  @Input() fiveDaysWeatherData: FiveDaysWeather[] | null  = [];
+  @Input() fiveDaysWeatherData: (FiveDaysWeather|undefined)[] | null = [];
   @Input() country: string | null = null;
   @Input() state: string | null = null;
   @Input() createdAt: Date | null = null;

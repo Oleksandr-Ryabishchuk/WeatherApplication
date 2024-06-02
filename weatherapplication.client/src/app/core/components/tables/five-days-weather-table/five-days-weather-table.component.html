@@ -2,8 +2,7 @@
   class="table table-borderless table-striped"
   *ngIf="fiveDaysWeatherData && fiveDaysWeatherData.length"
 >
-  <div *ngFor="let fiveDaysWeather of fiveDaysWeatherData; let i = index">
-    <thead *ngIf="i === 0 || !i">
+    <thead>
       <tr>
         <th>City Name</th>
         <th>Country</th>
@@ -37,39 +36,45 @@
         <th>Wind Speed</th>
       </tr>
     </thead>
-    <tbody *ngFor="let item of fiveDaysWeather.items">
-      <tr>
-        <th>{{ fiveDaysWeather.cityName }}</th>
-        <th>{{ fiveDaysWeather.country }}</th>
-        <th>{{ item.dateText }}</th>
-        <th>{{ fiveDaysWeather.lat }}</th>
-        <th>{{ fiveDaysWeather.lon }}</th>
-        <th>{{ fiveDaysWeather.population }}</th>
-        <th>{{ fiveDaysWeather.sunrise }}</th>
-        <th>{{ fiveDaysWeather.sunset }}</th>
-        <th>{{ fiveDaysWeather.timezone }}</th>
-        <th>{{ item.cloudsAll }}</th>
-        <th>{{ item.dt }}</th>
-        <th>{{ item.feelsLike }}</th>
-        <th>{{ item.groundLevel }}</th>
-        <th>{{ item.humidity }}</th>
-        <th>{{ item.minMaxTempDiff }}</th>
-        <th>{{ item.pop }}</th>
-        <th>{{ item.pressure }}</th>
-        <th>{{ item.rain }}</th>
-        <th>{{ item.seaLevel }}</th>
-        <th>{{ item.snow }}</th>
-        <th>{{ item.temp }}</th>
-        <th>{{ item.tempMax }}</th>
-        <th>{{ item.tempMin }}</th>
-        <th>{{ item.visibility }}</th>
-        <th>{{ item.weatherDescription }}</th>
-        <th>{{ item.weatherIcon }}</th>
-        <th>{{ item.weatherMain }}</th>
-        <th>{{ item.windDeg }}</th>
-        <th>{{ item.windGust }}</th>
-        <th>{{ item.windSpeed }}</th>
-      </tr>
-    </tbody>
-  </div>
+  <ng-container *ngFor="let fiveDaysWeather of fiveDaysWeatherData; let i = index">
+    <ng-container *ngFor="let item of fiveDaysWeather?.items; let q = index">
+      <tbody>
+        <tr *ngIf="fiveDaysWeather && fiveDaysWeather.items">
+          <th>{{ fiveDaysWeather.cityName }}</th>
+          <th>{{ fiveDaysWeather.country }}</th>
+          <th>{{ item.dateText }}</th>
+          <th>{{ fiveDaysWeather.lat }}</th>
+          <th>{{ fiveDaysWeather.lon }}</th>
+          <th>{{ fiveDaysWeather.population }}</th>
+          <th>{{ fiveDaysWeather.sunrise }}</th>
+          <th>{{ fiveDaysWeather.sunset }}</th>
+          <th>{{ fiveDaysWeather.timezone }}</th>
+          <th>{{ item.cloudsAll }}</th>
+          <th>{{ item.dt }}</th>
+          <th>{{ item.feelsLike }}</th>
+          <th>{{ item.groundLevel }}</th>
+          <th>{{ item.humidity }}</th>
+          <th>{{ item.minMaxTempDiff }}</th>
+          <th>{{ item.pop }}</th>
+          <th>{{ item.pressure }}</th>
+          <th>{{ item.rain }}</th>
+          <th>{{ item.seaLevel }}</th>
+          <th>{{ item.snow }}</th>
+          <th>{{ item.temp }}</th>
+          <th>{{ item.tempMax }}</th>
+          <th>{{ item.tempMin }}</th>
+          <th>{{ item.visibility }}</th>
+          <th>{{ item.weatherDescription }}</th>
+          <th>{{ item.weatherIcon }}</th>
+          <th>{{ item.weatherMain }}</th>
+          <th>{{ item.windDeg }}</th>
+          <th>{{ item.windGust }}</th>
+          <th>{{ item.windSpeed }}</th>
+        </tr>
+        <tr *ngIf="q%40===0">
+          <th colspan="30"><hr></th>
+        </tr>
+      </tbody>
+    </ng-container>
+  </ng-container>
 </table>

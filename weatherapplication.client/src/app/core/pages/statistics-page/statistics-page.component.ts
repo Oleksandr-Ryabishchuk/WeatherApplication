@@ -34,7 +34,18 @@ export class StatisticsPageComponent {
               this.currentWeather?.push(weather)
             };
           });
-          this.fiveDaysWeather = x.map((q) => q.fiveDaysWeather);
+          this.fiveDaysWeather = x.map((q) =>{
+            let weather = q.fiveDaysWeather;
+            if(weather){
+              weather.createdAt = q.createdAt;
+              weather.isFromRecord = true;
+              weather.state = q.state;
+              weather.lat = q.lat;
+              weather.lon = q.lon;
+              weather.country = q.country;
+            }
+            return weather
+          });
         });
     }
   }
