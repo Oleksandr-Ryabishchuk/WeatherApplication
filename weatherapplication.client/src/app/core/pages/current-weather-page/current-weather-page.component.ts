@@ -11,7 +11,7 @@ import {
   styleUrls: ['./current-weather-page.component.css'],
 })
 export class CurrentWeatherPageComponent {
-  currentWeather: CurrentWeather[] | null = [];
+  currentWeather: CurrentWeather[] = [];
   constructor(private http: HttpService) {}
 
   getCurrentWeather(query: Partial<CurrentWeatherQuery>) {

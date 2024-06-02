@@ -12,7 +12,9 @@ export class CurrentWeatherFormComponent implements OnInit {
   currentWeatherQuery: CurrentWeatherQuery | null = null;
   @Output() weatherEmitter = new EventEmitter<Partial<CurrentWeatherQuery>>();
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(
+    private formBuilder: UntypedFormBuilder
+  ) {}
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       city: [''],
