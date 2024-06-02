@@ -2,41 +2,43 @@
   class="table table-borderless table-striped"
   *ngIf="fiveDaysWeatherData && fiveDaysWeatherData.length"
 >
-    <thead>
-      <tr>
-        <th>City Name</th>
-        <th>Country</th>
-        <th>Date</th>
-        <th>Lat</th>
-        <th>Lon</th>
-        <th>Population</th>
-        <th>Sunrise</th>
-        <th>Sunset</th>
-        <th>Time Zone</th>
-        <th>Cloud Percentage</th>
-        <th>Dt</th>
-        <th>Feels Like</th>
-        <th>Ground Level</th>
-        <th>Humidity</th>
-        <th>Difference between max and min temperature</th>
-        <th>Pop</th>
-        <th>Pressure</th>
-        <th>Rain</th>
-        <th>Sea Level</th>
-        <th>Snow</th>
-        <th>Temp</th>
-        <th>Temperature Max</th>
-        <th>Temperature Min</th>
-        <th>Visibility</th>
-        <th>Weather Description</th>
-        <th>Weather Icon</th>
-        <th>Weather Main</th>
-        <th>Wind Angle</th>
-        <th>Wind Gust</th>
-        <th>Wind Speed</th>
-      </tr>
-    </thead>
-  <ng-container *ngFor="let fiveDaysWeather of fiveDaysWeatherData; let i = index">
+  <thead class="sticky-top">
+    <tr>
+      <th>City Name</th>
+      <th>Country</th>
+      <th>Date</th>
+      <th>Lat</th>
+      <th>Lon</th>
+      <th>Population</th>
+      <th>Sunrise</th>
+      <th>Sunset</th>
+      <th>Time Zone</th>
+      <th>Cloud Percentage</th>
+      <th>Dt</th>
+      <th>Feels Like</th>
+      <th>Ground Level</th>
+      <th>Humidity</th>
+      <th>Difference between max and min temperature</th>
+      <th>Pop</th>
+      <th>Pressure</th>
+      <th>Rain</th>
+      <th>Sea Level</th>
+      <th>Snow</th>
+      <th>Temp</th>
+      <th>Temperature Max</th>
+      <th>Temperature Min</th>
+      <th>Visibility</th>
+      <th>Weather Description</th>
+      <th>Weather Icon</th>
+      <th>Weather Main</th>
+      <th>Wind Angle</th>
+      <th>Wind Gust</th>
+      <th>Wind Speed</th>
+    </tr>
+  </thead>
+  <ng-container
+    *ngFor="let fiveDaysWeather of fiveDaysWeatherData; let i = index"
+  >
     <ng-container *ngFor="let item of fiveDaysWeather?.items; let q = index">
       <tbody>
         <tr *ngIf="fiveDaysWeather && fiveDaysWeather.items">
@@ -71,10 +73,8 @@
           <th>{{ item.windGust }}</th>
           <th>{{ item.windSpeed }}</th>
         </tr>
-        <tr *ngIf="q%40===0">
-          <th colspan="30"><hr></th>
-        </tr>
       </tbody>
     </ng-container>
+    <th class="p-5" *ngIf="i > 1"></th>
   </ng-container>
 </table>
