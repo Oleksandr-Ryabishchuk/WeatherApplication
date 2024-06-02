@@ -1,1 +1,7 @@
-<p>fivedays-weather-page works!</p>
+<h1 class="d-flex justify-content-center">5 Days Forecast</h1>
+<app-current-weather-form
+  (weatherEmitter)="getFiveDaysWeather($event)"
+></app-current-weather-form>
+<five-days-weather-table
+  [fiveDaysWeatherData]="fiveDaysWeather"
+></five-days-weather-table>
