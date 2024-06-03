@@ -12,7 +12,7 @@ export class FiveDaysWeatherTableComponent {
   @Input() country: string | null = null;
   @Input() state: string | null = null;
   @Input() createdAt: Date | null = null;
-  @Input() lat: number | null = null;
-  @Input() lon: number | null = null;
+  @Input() lat: number = 0;
+  @Input() lon: number = 0;
   
 }

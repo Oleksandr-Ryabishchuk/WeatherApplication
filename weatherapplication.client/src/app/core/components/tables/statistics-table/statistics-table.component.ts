@@ -7,7 +7,7 @@ import { CurrentWeather, FiveDaysWeather, Record } from 'src/app/services/http.s
   styleUrls: ['./statistics-table.component.css'],
 })
 export class StatisticsTableComponent {
-  @Input() currentWeather: (CurrentWeather|undefined)[]|null = [];
-  @Input() fiveDaysWeather: (FiveDaysWeather|undefined)[]|null = [];
+  @Input() currentWeather: (CurrentWeather|undefined)[] = [];
+  @Input() fiveDaysWeather: (FiveDaysWeather|undefined)[] = [];
   @Input() activeTab: string = 'currentWeather';
 }

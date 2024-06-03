@@ -14,8 +14,8 @@ import {
 })
 export class StatisticsPageComponent {
   http = inject(HttpService);
-  currentWeather: (CurrentWeather | undefined)[] | null = [];
-  fiveDaysWeather: (FiveDaysWeather | undefined)[] | null = [];
+  currentWeather: (CurrentWeather | undefined)[] = [];
+  fiveDaysWeather: (FiveDaysWeather | undefined)[]= [];
 
   getStatistics(query: Partial<StatisticsQuery>) {
     if (query) {

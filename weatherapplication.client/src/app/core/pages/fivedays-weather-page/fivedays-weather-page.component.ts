@@ -11,7 +11,7 @@ import {
   styleUrls: ['./fivedays-weather-page.component.css'],
 })
 export class FivedaysWeatherPageComponent {
-fiveDaysWeather: FiveDaysWeather[] | null = [];
+fiveDaysWeather: FiveDaysWeather[] = [];
   constructor(private http: HttpService) {}
 
   getFiveDaysWeather(query: Partial<CurrentWeatherQuery>) {
