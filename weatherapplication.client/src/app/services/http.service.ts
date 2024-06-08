@@ -13,6 +13,12 @@ export interface CurrentWeather {
   humidity: number;
   windSpeed: number;
   cloudsAll: number;
+  isFromRecord: boolean;
+  country?: string;
+  state?: string;
+  createdAt?: Date;
+  lat?: number;
+  lon?: number;
 }
 export interface Item {
   dt: number;
@@ -39,21 +45,39 @@ export interface Item {
   windGust: number;
 }
 export interface FiveDaysWeather {
-   items: Item[];
-   cityName: string;
-   country:  string;
-   lat : number;
-   lon : number;
-   population: number;
-   sunrise : number;
-   sunset: number;
-   timezone : number;
+  items: Item[];
+  cityName: string;
+  country: string;
+  lat: number;
+  lon: number;
+  population: number;
+  sunrise: number;
+  sunset: number;
+  timezone: number;
+  isFromRecord: boolean;
+  createdAt?: Date;
+  state?: string;
 }
 export interface CurrentWeatherQuery {
   city: string;
   email: string;
   cityCode: number;
   stateCode: number;
+}
+export interface StatisticsQuery {
+  userEmail: string;
+  fromDate: Date | undefined;
+  toDate: Date | undefined;
+}
+export interface Record {
+  city: string;
+  lat: number;
+  lon: number;
+  country: string;
+  state: string;
+  createdAt: Date;
+  currentWeather?: CurrentWeather;
+  fiveDaysWeather?: FiveDaysWeather;
 }
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -83,6 +107,17 @@ export class HttpService {
       `/weatherforecast/FiveDaysWeather?cityName=${cityName}&userEmail=${userEmail}&stateCode=${
         stateCode || ''
       }&countryCode=${countryCode || ''}`
+    );
+  }
+  getStatistics(
+    userEmail: string,
+    fromDate: Date | undefined,
+    toDate: Date | undefined
+  ) {
+    return this.http.get<Record[]>(
+      `/weatherforecast/GetAllRecordsForTenant?userEmail=${userEmail}&fromDate=${
+        fromDate || ''
+      }&toDate=${toDate || ''}`
     );
   }
 }

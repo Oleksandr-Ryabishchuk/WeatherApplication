@@ -1,0 +1,39 @@
+<div
+  class="button container-sm"
+  *ngIf="currentWeather?.length || fiveDaysWeather?.length"
+>
+  <div class="btn-group d-flex justify-content-center" role="group">
+    <button
+      type="button"
+      class="btn btn-info"
+      [ngClass]="{ active: activeTab === 'currentWeather' }"
+      (click)="activeTab = 'currentWeather'"
+    >
+      Current Weather
+    </button>
+    <button
+      type="button"
+      class="btn btn-info"
+      [ngClass]="{ active: activeTab === 'fiveDaysWeather' }"
+      (click)="activeTab = 'fiveDaysWeather'"
+    >
+      5 Days Forecast
+    </button>
+  </div>
+</div>
+
+<div *ngIf="activeTab === 'currentWeather'">
+  <div *ngIf="currentWeather">
+    <current-weather-table
+      [currentWeather]="currentWeather"
+    ></current-weather-table>
+  </div>
+</div>
+
+<div *ngIf="activeTab === 'fiveDaysWeather'">
+  <div *ngIf="fiveDaysWeather">
+      <five-days-weather-table
+        [fiveDaysWeatherData]="fiveDaysWeather"
+      ></five-days-weather-table>
+    </div>
+</div>

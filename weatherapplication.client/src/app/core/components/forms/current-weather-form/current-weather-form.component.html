@@ -1,0 +1,35 @@
+<div>
+  <form *ngIf="form" [formGroup]="form">
+    <table class="table table-borderless">
+      <tr>
+        <th>City Name:</th>
+        <th>Your E-mail:</th>
+        <th>City Code:</th>
+        <th>State Code:</th>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" formControlName="city" required />
+        </td>
+        <td>
+          <input type="email" formControlName="email" required />
+        </td>
+        <td>
+          <input type="number" formControlName="cityCode" />
+        </td>
+        <td>
+          <input type="number" formControlName="stateCode" />
+        </td>
+      </tr>
+    </table>
+  </form>
+  <div class="container-fluid d-flex justify-content-end pr-5">
+    <button
+      type="submit"
+      class="btn btn-primary "
+      (click)="getData()"
+    >
+      Get Data
+    </button>
+  </div>
+</div>
